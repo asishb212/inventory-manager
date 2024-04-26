@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+ prefHeight="800.0" prefWidth="1600.0" 
+ xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+ fx:controller="frontend.norm_dashboard_controller">
+
+<top>
+<AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
+    <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0"
+       style="-fx-background-color: #A59079; -fx-text-fill:WHITE;" >
+        <menus>
+            <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
+                <items>
+                    <MenuItem text="Logout" onAction="#handleLogout"/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </items>
+            </Menu>
+            <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+            
+                <items>
+                    <MenuItem text="Inventory" onAction="#handleInventory"/>
+                    <MenuItem text="Insights" onAction="#handleInsights"/>
+                </items>
+            </Menu>
+            <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+                <items>
+                    <MenuItem text="Info" onAction="#handleInfo"/>
+                    <MenuItem text="Change password" onAction="#handlePwd"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    
+    
+</AnchorPane>
+</top>
+
+<left>
+    <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #000080;" BorderPane.alignment="CENTER">
+        <children>
+            <Label fx:id="welcomeText" layoutX="50" layoutY="50" prefWidth="500"
+            style="-fx-font-size: 70; -fx-text-fill:  #FFFFFF;"/>
+
+        </children>
+    </AnchorPane>
+</left>
+
+<right>
+<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+    <children>
+    <Button fx:id="AddItemButton" 
+        layoutX="60.0" layoutY="70.0"
+        prefWidth="400" prefHeight="100" 
+        mnemonicParsing="false" onAction="#handleAddItem" style="-fx-background-color: orange; -fx-font-size: 40" 
+        text="Add Item" textFill="WHITE" />
+
+    <Button fx:id="UpdateItemButton" 
+        layoutX="60.0" layoutY="200.0" 
+        prefWidth="400" prefHeight="100"
+        mnemonicParsing="false" onAction="#handleUpdateItem" style="-fx-background-color: orange; -fx-font-size: 40;" 
+        text="Update Item" textFill="WHITE" />
+
+    </children>
+    </AnchorPane>
+</right>
+</BorderPane>

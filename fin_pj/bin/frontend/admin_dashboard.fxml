@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+ prefHeight="800.0" prefWidth="1600.0" 
+ xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+ fx:controller="frontend.norm_dashboard_controller">
+
+<top>
+<AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
+    <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0"
+       AnchorPane.rightAnchor = "0.0" layoutX="0.0" layoutY="0.0"
+       style="-fx-background-color: #A59079; -fx-text-fill:  #000000;" >
+        <menus>
+            <Menu text="File" style="-fx-font-size: 50; -text-color: #000000;">
+                <items>
+                    <MenuItem text="Logout" onAction="#handleLogout"/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </items>
+            </Menu>
+            <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: #FFFFFF;">
+            
+                <items>
+                    <MenuItem text="Inventory" onAction="#handleInventory"/>
+                    <MenuItem text="Insights" onAction="#handleInsights"/>
+                </items>
+            </Menu>
+            <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill:  #FFFFFF;">
+                <items>
+                    <MenuItem text="Info" onAction="#handleInfo"/>
+                    <MenuItem text="Change password" onAction="#handlePwd"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    
+    
+</AnchorPane>
+</top>
+
+
+<left>
+    
+</left>
+
+</BorderPane>
