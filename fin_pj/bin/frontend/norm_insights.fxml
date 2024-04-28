@@ -1,0 +1,96 @@
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.chart.*?>
+<?import javafx.collections.*?>
+
+<?import java.lang.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+    prefHeight="800.0" prefWidth="1600.0"
+    xmlns="http://javafx.com/javafx/8"
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.norm_insights_controller">
+
+    <top>
+        <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0">
+            <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" 
+                     style="-fx-background-color: #A59079; -fx-text-fill:WHITE;">
+                <menus>
+                    <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
+                        <items>
+                            <MenuItem text="Logout" onAction="#handleLogout"/>
+                            <MenuItem text="Exit" onAction="#handleExit"/>
+                        </items>
+                    </Menu>
+                    <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+
+                        <items>
+                            <MenuItem text="Inventory" onAction="#handleInventory"/>
+                            <MenuItem text="Insights" onAction="#handleInsights"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+                        <items>
+                            <MenuItem text="Info" onAction="#handleInfo"/>
+                            <MenuItem text="Change password" onAction="#handlePwd"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+        </AnchorPane>
+    </top>
+
+    <left>
+        <StackPane maxHeight="800.0" prefWidth="1000.0" 
+                    style="-fx-background-color: #FFFFFF;" 
+                    BorderPane.alignment="CENTER">
+            <children>
+                <PieChart fx:id="pieChart" prefHeight="700.0" prefWidth="1000.0"/>
+                <BarChart fx:id="barChart" prefHeight="700.0" prefWidth="1000.0" >
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis"/>
+                    </yAxis>
+                </BarChart>
+
+                <LineChart fx:id="lineChart" prefHeight="700.0" prefWidth="1000.0">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis2"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis2"/>
+                    </yAxis>
+                </LineChart>
+            </children>
+        </StackPane>
+    </left>
+
+    <right>
+        <AnchorPane maxHeight="800.0" prefWidth="600.0" 
+                    style="-fx-background-color: #FFFFFF;" 
+                    BorderPane.alignment="CENTER">
+            <children>
+                <ComboBox fx:id="comboBox" layoutX="60.0" layoutY="70.0" prefWidth="400" prefHeight="100"
+                          promptText="Select an item">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Line Chart"/>
+                            <String fx:value="Pie Chart"/>
+                            <String fx:value="Bar Chart"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Button fx:id="Plot" layoutX="60.0" layoutY="300.0" prefWidth="400" prefHeight="100" 
+                        mnemonicParsing="false" onAction="#handlePlotButton" 
+                        style="-fx-background-color: orange; -fx-font-size: 40" text="Plot" textFill="WHITE" />
+            </children>
+        </AnchorPane>
+    </right>
+</BorderPane>

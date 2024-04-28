@@ -7,8 +7,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
             prefHeight="800.0" prefWidth="1600.0"
-   xmlns="http://javafx.com/javafx/8"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.LoginController">
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="frontend.newUser_controller">
 
    <top>
       <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0">
@@ -55,21 +56,28 @@
 
             <TextField fx:id="usernameField" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
                        promptText="User Id" layoutX="250.0" layoutY="350.0" 
-                       style="-fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
 
             <PasswordField fx:id="passwordField" 
                            prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="250.0" layoutY="400.0" 
                            promptText="Password" 
-                           style="-fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
+                           style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                           -fx-border-width: 2px 2px 2px 2px;" />
+            
+            <PasswordField fx:id="confirmPasswordField" 
+                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="250.0" layoutY="450.0" 
+                           promptText="Confirm Password" 
+                           style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                           -fx-border-width: 2px 2px 2px 2px;" />
 
-            <Button fx:id="signInButton" layoutX="275.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
-                    mnemonicParsing="false" onAction="#signin_button_handler" style="-fx-background-color: #BAEC00" 
-                    text="Login" textFill="WHITE" />
+            <Button fx:id="createAccount" layoutX="275.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
+                    mnemonicParsing="false" onAction="#create_account_button_handler" style="-fx-background-color: #BAEC00" 
+                    text="Create account" textFill="WHITE" />
 
-            <Button fx:id="newUserButton" layoutX="475.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
-                    mnemonicParsing="false" onAction="#newUser_button_handler" 
-                    style="-fx-background-color: #B30C00" text="New User?" textFill="WHITE" />
-
+            <Button fx:id="cancel" layoutX="475.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
+                    mnemonicParsing="false" onAction="#cancel_button_handler" style="-fx-background-color: #B30C00" 
+                    text="Cancel" textFill="WHITE" />
 
          </children>
       </AnchorPane>

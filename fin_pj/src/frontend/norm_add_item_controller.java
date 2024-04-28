@@ -2,14 +2,11 @@ package frontend;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 
+public class norm_add_item_controller {
 
-public class norm_dashboard_controller {
-
-    @FXML
-    private Label welcomeText;
-
+    private static String userName;
+    
     @FXML
     private void handleLogout() {
         // Handle New action
@@ -30,13 +27,14 @@ public class norm_dashboard_controller {
 
     @FXML
     private void handleInsights() {
-        Main.NormUserInsightsSceneSwitch();
+        // Handle Exit action
+        showAlert("Exit clicked");
     }
 
     @FXML
     private void handleInfo() {
         // Handle Cut action
-        showAlert("info clicked");
+        showAlert("Cut clicked");
     }
 
     @FXML
@@ -45,14 +43,14 @@ public class norm_dashboard_controller {
         showAlert("Copy clicked");
     }
 
-    @FXML
-    private void handleAddItem(){
-        Main.NormUserAddItemSceneSwitch();
+    @FXML 
+    private void handleConfirm() {
+        showAlert("add item clicked");
     }
 
     @FXML 
-    private void handleUpdateItem(){
-        Main.NormUserUpdateItemSceneSwitch();
+    private void handleCancel() {
+        Main.NormUserDashboardSceneSwitch(norm_add_item_controller.userName);
     }
 
     private void showAlert(String message) {
@@ -63,7 +61,7 @@ public class norm_dashboard_controller {
         alert.showAndWait();
     }
 
-    public void setText(String text) {
-        welcomeText.setText(text);    
+    public void setUsername(String text) {
+        norm_add_item_controller.userName = text;
     }
 }

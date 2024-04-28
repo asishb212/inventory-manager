@@ -30,9 +30,9 @@ public class LoginController {
 
     @FXML
     public void signin_button_handler() {
-        String userName = usernameField.getText();
-        String password = passwordField.getText();
-        String json_login_info = "{\"password\": \"" + password + "\", \"email\": \"" + userName + "\"}";
+        //String userName = usernameField.getText();
+        //String password = passwordField.getText();
+        //String json_login_info = "{\"password\": \"" + password + "\", \"email\": \"" + userName + "\"}";
 
         boolean isLoginSuccess = true;
         boolean isAdmin = false;
@@ -48,7 +48,10 @@ public class LoginController {
                 Main.NormUserDashboardSceneSwitch("userName");
             }
         }
+    }
 
+    public void newUser_button_handler() {
+        Main.NewUserSceneSwitch();
     }
 
 }
