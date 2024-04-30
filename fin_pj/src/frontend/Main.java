@@ -16,6 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Main.stage = primaryStage;
+        Main.stage.setFullScreen(true);
+
         LoginSceneSwitch();
         primaryStage.setTitle("Project");
         primaryStage.show();
@@ -27,6 +29,7 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,6 +108,18 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void UserInfoSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("handle_info.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

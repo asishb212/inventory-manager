@@ -6,10 +6,24 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Controller",
+            "request": "launch",
+            "mainClass": "Backend.Controller",
+            "projectName": "fin_pj_4e612c89"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "hellofx.Main",
+            "projectName": "fin_pj_4e612c89"
+        },
+        {
+            "type": "java",
             "name": "Launch App",
             "request": "launch",
             "mainClass": "frontend.Main",
-            "vmArgs": "--module-path /Users/asishboggavarapu/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path /Users/asishboggavarapu/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

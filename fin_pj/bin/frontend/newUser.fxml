@@ -4,6 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.ComboBox?>
+
+<?import java.lang.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
             prefHeight="800.0" prefWidth="1600.0"
@@ -30,46 +34,96 @@
       <AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #000080;" 
                   BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" layoutX="120.0" layoutY="422.0" strokeWidth="0.0" text="Inventory Manager">
-               <font>
-                  <Font name="Roboto" size="70.0" />
-               </font>
-            </Text>
-            <Label fx:id="label" text="Label" />
+            <Label fx:id="label" prefHeight="700" prefWidth="800"
+                   layoutX="15" layoutY="15"
+                   style="-fx-font-size: 15; -fx-text-fill: #FFFFFF;"/>
          </children>
       </AnchorPane>
    </left>
    <right>
       <AnchorPane prefHeight="500.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-         <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" 
-               BorderPane.alignment="CENTER" style="-fx-background-color: #e8e8e8; -fx-background-radius: 20;" 
-               layoutX="200.0" layoutY="230.0" spacing="10">
-         </VBox>
-
+      
          <children>
 
-            <Text fill="#000080" strokeWidth="0.0" text="Login" layoutX="320.0" layoutY="300.0">
+            <Text fill="#000080" strokeWidth="0.0" text="Create Account" layoutX="240.0" layoutY="50.0">
                <font>
                   <Font name="Roboto" size="60.0" />
                </font>
             </Text>
 
             <TextField fx:id="usernameField" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
-                       promptText="User Id" layoutX="250.0" layoutY="350.0" 
+                       promptText="User Id" layoutX="100" layoutY="100.0" 
                        style="-fx-background-color: transparent; -fx-border-color: #000080; 
                        -fx-border-width: 2px 2px 2px 2px;" />
 
             <PasswordField fx:id="passwordField" 
-                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="250.0" layoutY="400.0" 
+                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="100" layoutY="150.0" 
                            promptText="Password" 
                            style="-fx-background-color: transparent; -fx-border-color: #000080; 
                            -fx-border-width: 2px 2px 2px 2px;" />
             
             <PasswordField fx:id="confirmPasswordField" 
-                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="250.0" layoutY="450.0" 
+                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="100" layoutY="200.0" 
                            promptText="Confirm Password" 
                            style="-fx-background-color: transparent; -fx-border-color: #000080; 
                            -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="firstName" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="First name" layoutX="100" layoutY="250.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="lastName" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Last name" layoutX="100" layoutY="300.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="phoneNumber" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Phone number" layoutX="100" layoutY="350.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="email" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="email" layoutX="100" layoutY="400.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="AddStreet" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Street address" layoutX="400" layoutY="100" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="Addcity" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="City" layoutX="400" layoutY="150" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="Addstate" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="State" layoutX="400" layoutY="200" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="Addcountry" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Country" layoutX="400" layoutY="250" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="Addzip" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Zip Code" layoutX="400" layoutY="300.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" />
+
+            <ComboBox fx:id="userType" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="User type" layoutX="400" layoutY="350.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" >
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="Customer"/>
+                     <String fx:value="Supplier"/>
+                  </FXCollections>
+               </items>
+            </ComboBox>   
 
             <Button fx:id="createAccount" layoutX="275.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
                     mnemonicParsing="false" onAction="#create_account_button_handler" style="-fx-background-color: #BAEC00" 

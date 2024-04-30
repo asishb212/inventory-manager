@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
-
-public class norm_dashboard_controller {
+public class handle_info_controller {
 
     @FXML
-    private Label welcomeText;
+    private Label label;
 
     @FXML
     private void handleLogout() {
@@ -44,16 +43,6 @@ public class norm_dashboard_controller {
         showAlert("Copy clicked");
     }
 
-    @FXML
-    private void handleAddItem(){
-        Main.NormUserAddItemSceneSwitch();
-    }
-
-    @FXML 
-    private void handleUpdateItem(){
-        Main.NormUserUpdateItemSceneSwitch();
-    }
-
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Action");
@@ -62,7 +51,14 @@ public class norm_dashboard_controller {
         alert.showAndWait();
     }
 
-    public void setText(String text) {
-        welcomeText.setText(text);    
+    public void initialize() {
+        label.setText("First name : "+User.getUserName()+
+                      "Last name : "+
+                      "\nRole : "+User.getUserRole()+
+                      "\nType : "+User.getUserType()+
+                      "\n");
     }
 }
+
+
+

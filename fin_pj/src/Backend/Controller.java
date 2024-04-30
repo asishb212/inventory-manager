@@ -1,3 +1,5 @@
+package Backend;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -7,10 +9,11 @@ import java.util.ArrayList;
 
 public class Controller {
 
-	private static Connection connection;
+	public static Connection connection;
     private static PreparedStatement psAddUser;
     private static PreparedStatement psUpdateUser;
     private static PreparedStatement psGetUserName;
+    private static PreparedStatement psCheckCredentials;
     private static PreparedStatement psUsers;
     private static ResultSet resultSet;
     private static ArrayList<String> userList = new ArrayList<String>();
@@ -58,7 +61,41 @@ public class Controller {
         }
         
         return false;        
-    }    
+    }
+    
+    public static Boolean checkCredentials(String userName, String Password) {
+        try {
+            psCheckCredentials = connection.prepareStatement("SELECT USERNAME FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
+            psCheckCredentials.setString(1, userName);
+            psCheckCredentials.setString(2, Password);
+            resultSet = psCheckCredentials.executeQuery();
+            
+            while(resultSet.next()) {
+                return true; // Username and password match found
+            }
+        } catch(SQLException se) {
+            System.out.println("Error checking credentials: " + se.getMessage());
+        }
+        
+        return false; // No matching username and password found
+    }
+
+    public static Boolean getUserInfo(String userName) {
+        try {
+            psCheckCredentials = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = ?");
+            psCheckCredentials.setString(1, userName);
+            resultSet = psCheckCredentials.executeQuery();
+            
+            while(resultSet.next()) {
+                return true; // Username and password match found
+            }
+        } catch(SQLException se) {
+            System.out.println("Error checking credentials: " + se.getMessage());
+        }
+        
+        return false; // No matching username and password found
+    }
+    
     
     // handler(): to get the list of Users (info may be required by an Admin)
     public static ArrayList<String> getAllUsers() {   	
@@ -79,6 +116,10 @@ public class Controller {
         return resultsUsersList;
     }
 
+    public static void setConnection(Connection connection){
+        Controller.connection = connection;
+    }
+
     
     
     ////////////////////////////////////////
@@ -90,8 +131,8 @@ public class Controller {
     	////// Call to test DB handler()... 
 		
 		// getConnection()
-    	connection = DBConnection.getConnection();
-    	System.out.println("DB Connected is : " + connection); 
+    	//connection = DBConnection.getConnection();
+    	//System.out.println("DB Connected is : " + connection); 
     	
     	
     	////// Call to test Function handlers()...     	
