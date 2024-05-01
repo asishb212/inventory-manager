@@ -6,7 +6,7 @@ public class User {
 	 public static String userName;
 	 public static String userRole;
 	 public static String userType;
-	 public static int userId;
+	 public static long userId;
 	 //private String password;
 
 	 // constructor
@@ -19,7 +19,8 @@ public class User {
 	 }
 	 
 	 // constructor
-	 public User(String userName, String userRole, String userType) {   
+	 public User(long userId,String userName, String userRole, String userType) {   
+		setUserId(userId);
         setUserName(userName);
         setUserRole(userRole);
         setUserType(userType);
@@ -28,7 +29,7 @@ public class User {
     ///////////////////////
     //// setter Methods
 	///////////////////////
-	public static void setUserId(int userId) {
+	public static void setUserId(long userId) {
         User.userId = userId;
     }
 
@@ -58,6 +59,10 @@ public class User {
 
 	public static String getUserType() {
 		return User.userType;
+	}
+
+	public static long getUserId() {
+		return User.userId;
 	}
 	
 }

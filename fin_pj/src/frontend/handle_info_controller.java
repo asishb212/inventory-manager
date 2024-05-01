@@ -7,7 +7,10 @@ import javafx.scene.control.Label;
 public class handle_info_controller {
 
     @FXML
-    private Label label;
+    private Label attr_label;
+
+    @FXML
+    private Label info_label;
 
     @FXML
     private void handleLogout() {
@@ -19,6 +22,12 @@ public class handle_info_controller {
     private void handleExit() {
         // Handle Open action
         System.exit(0);
+    }
+
+    @FXML
+    private void handleHome() {
+        // Handle Open action
+        Main.NormUserDashboardSceneSwitch(User.userName);
     }
 
     @FXML
@@ -52,11 +61,27 @@ public class handle_info_controller {
     }
 
     public void initialize() {
-        label.setText("First name : "+User.getUserName()+
-                      "Last name : "+
-                      "\nRole : "+User.getUserRole()+
-                      "\nType : "+User.getUserType()+
-                      "\n");
+
+        String labelsText = "Username\nUser Role\nUser Type\nUser ID\nSupplier Name\nContact First Name\nContact Last Name\nContact Phone\nSupplier ID\nSupplier Street\nSupplier City\nSupplier State\nSupplier Country\nSupplier Zipcode";
+        
+        String infoText = User.getUserName() + "\n" +
+                          User.getUserRole() + "\n" +
+                          User.getUserType() + "\n" +
+                          User.getUserId() + "\n" +
+                          Supplier.getSupplierName() + "\n" +
+                          Supplier.getContactFirstname() + "\n" +
+                          Supplier.getContactLastname() + "\n" +
+                          Supplier.getContactPhone() + "\n" +
+                          Supplier.getSupplierID() + "\n" +
+                          SupplierAddress.getSupplierStreet() + "\n" +
+                          SupplierAddress.getSupplierCity() + "\n" +
+                          SupplierAddress.getSupplierState() + "\n" +
+                          SupplierAddress.getSupplierCountry() + "\n" +
+                          SupplierAddress.getSupplierZipcode();
+
+
+        attr_label.setText(labelsText);
+        info_label.setText(infoText);
     }
 }
 

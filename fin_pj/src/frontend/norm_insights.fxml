@@ -23,6 +23,7 @@
                 <menus>
                     <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
                         <items>
+                            <MenuItem text="Home" onAction="#handleHome"/>
                             <MenuItem text="Logout" onAction="#handleLogout"/>
                             <MenuItem text="Exit" onAction="#handleExit"/>
                         </items>

@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.util.Map;
 
 import Backend.*;
@@ -57,13 +56,7 @@ public class LoginController {
     	System.out.println("DB Connected is : " + conn); 
 
         boolean isLoginSuccess = Queries.checkCredentials(userName, password);
-        System.out.println(isLoginSuccess);
         
-        boolean isAdmin = false;
-
-        // code to connect to server
-        // code to get a data response
-
         if (isLoginSuccess) {
 
             Map<String,Object> userData = Queries.getUserInfo(userName);
@@ -73,11 +66,31 @@ public class LoginController {
             User.setUserRole((String) userData.get("user_role"));
             User.setUserType((String) userData.get("user_type"));
 
-            if (isAdmin) {
+            if (User.getUserRole().equals("Admin")) {
                 Main.AdminUserDashboardSceneSwitch();
             }
-            else{
-                Main.NormUserDashboardSceneSwitch(userName);
+            else {
+                if (User.getUserType().equals("S")){
+                    Map<String,Object> Info = Queries.getSupplier(User.getUserId()) ;
+
+                    Supplier.setSupplierID((long) Info.get("SUPPLIER_ID"));
+                    Supplier.setSupplierName((String) Info.get("SUPPLIER_NAME"));
+                    Supplier.setContactFirstname((String) Info.get("CONTACT_FIRSTNAME"));
+                    Supplier.setContactLastname((String) Info.get("CONTACT_LASTNAME"));
+                    Supplier.setContactPhone((String) Info.get("CONTACT_PHONE"));
+
+                    Map<String,Object> Address = Queries.getSupplierAddress(Supplier.getSupplierID());
+
+                    System.out.println(Supplier.getSupplierID());
+                    
+                    SupplierAddress.setSupplierStreet((String) Address.get("ADDR_STREET"));
+                    SupplierAddress.setSupplierCity((String) Address.get("ADDR_CITY"));
+                    SupplierAddress.setSupplierState((String) Address.get("ADDR_STATE"));
+                    SupplierAddress.setSupplierCountry((String) Address.get("ADDR_COUNTRY"));
+                    SupplierAddress.setSupplierZipcode((String) Address.get("ADDR_ZIPCODE"));
+
+                    Main.NormUserDashboardSceneSwitch(userName);
+                }
             }
         }
         else {

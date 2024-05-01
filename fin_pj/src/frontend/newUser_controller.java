@@ -6,8 +6,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.event.ActionEvent;
+
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import Backend.*;
 
 public class newUser_controller {
+
+    private static Connection conn;
 
     @FXML
     private Label label;
@@ -50,6 +59,9 @@ public class newUser_controller {
 
     @FXML
     private ComboBox<String> userType;
+
+    @FXML
+    private TextField supp_name;
     
     @FXML
     public void initialize() {
@@ -259,8 +271,40 @@ public class newUser_controller {
         return true;
     }
 
+    public boolean validateSuppName(String supplierName){
+        if (supplierName == null || supplierName.trim().isEmpty()) {
+            showAlert("Supplier name cannot be empty.");
+            return false;
+        }
+        else if (supplierName.length() > 30) {
+            showAlert("Supplier name cannot be longer than 30 characters.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean confirmPassword(String pass, String CfmPass){
+        if (!pass.equals(CfmPass)){
+            showAlert("Passwords don't match");
+            return false;
+        }
+        return true;
+    }
+
     @FXML
-    public void create_account_button_handler() {
+    void comboBoxChanged(ActionEvent event) {
+        String selectedOption = userType.getValue();
+        if (selectedOption != null) {
+            if (selectedOption.equals("Supplier")) {
+                supp_name.setVisible(true);
+            } else {
+                supp_name.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
+    public void create_account_button_handler() throws SQLException{
 
         String userName = usernameField.getText();
         String password = passwordField.getText();
@@ -276,8 +320,7 @@ public class newUser_controller {
         String addCountryText = Addcountry.getText();
         String addZipText = Addzip.getText();
         String user_type_value = userType.getValue();
-
-        System.out.println("inp suc");
+        String suppName = supp_name.getText();
 
         String user_type;
 
@@ -292,26 +335,49 @@ public class newUser_controller {
             validateState(addStateText) && 
             validateCountry(addCountryText) && 
             validateZipCode(addZipText) &&
-            validateUsertype(user_type_value)) {
+            validateUsertype(user_type_value) &&
+            confirmPassword(password,ConfirmPassword)) {
         // All fields are valid, proceed with creating the account
         // You can add your account creation logic here
                 
-                System.out.println("success");
-
                 if (user_type_value.equals("Customer")){
                     user_type = "C";
                 }
                 else{
-                    user_type="S";
+                    user_type = "S";
+                    System.out.println("hi");
+
+                    if (!validateSuppName(suppName)){
+                        return;
+                    }
+
+                    conn = DBConnection.getConnection();
+                    Queries.setConnection(conn);
+    	            System.out.println("DB Connected is : " + conn);
+
+                    if (Queries.CheckUsername(userName)){
+                        showAlert("User name is already taken.");
+                        return;
+                    }
+
+                    if (user_type.equals("S")) {
+                        if (Queries.checkSupplierName(suppName)){
+                            showAlert("Supplier name already exists.");
+                            return;
+                        }
+                        else{
+                        Queries.addUser(userName, user_type, password);
+                        Queries.addSupplier(userName,suppName, firstNameText, lastNameText, phoneNumberText);
+                        Queries.addSupplierAddress(suppName, addStreetText, addCityText, addStateText, addCountryText, addZipText);
+                        }
+                    }
                 }
+            showAlert("Account successfully created!");
+            Main.LoginSceneSwitch();
         }
 
-        else {
-        // At least one field is invalid, handle the error (e.g., show an alert)
-        return;
-        }
-        
-
+        showAlert("Account creation failed. Try again");
+        Main.NewUserSceneSwitch();
     }
 
     @FXML

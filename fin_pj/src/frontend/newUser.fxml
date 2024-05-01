@@ -116,14 +116,21 @@
             <ComboBox fx:id="userType" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
                        promptText="User type" layoutX="400" layoutY="350.0" 
                        style="-fx-background-color: transparent; -fx-border-color: #000080; 
-                       -fx-border-width: 2px 2px 2px 2px;" >
+                       -fx-border-width: 2px 2px 2px 2px;" 
+                       onAction="#comboBoxChanged" >
                <items>
                   <FXCollections fx:factory="observableArrayList">
                      <String fx:value="Customer"/>
                      <String fx:value="Supplier"/>
                   </FXCollections>
                </items>
-            </ComboBox>   
+            </ComboBox>
+
+            <TextField fx:id="supp_name" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="Supplier name" layoutX="400" layoutY="400.0" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" 
+                       visible="false"/>   
 
             <Button fx:id="createAccount" layoutX="275.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
                     mnemonicParsing="false" onAction="#create_account_button_handler" style="-fx-background-color: #BAEC00" 

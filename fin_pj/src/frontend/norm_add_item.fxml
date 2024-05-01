@@ -19,6 +19,7 @@
         <menus>
             <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
                 <items>
+                    <MenuItem text="Home" onAction="#handleHome"/>
                     <MenuItem text="Logout" onAction="#handleLogout"/>
                     <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
@@ -44,10 +45,45 @@
 </top>
 
 <left>
-    <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #000080;" BorderPane.alignment="CENTER">
+    <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
         <children>
-            <Label fx:id="welcomeText" layoutX="50" layoutY="50" prefWidth="500"
-            style="-fx-font-size: 70; -fx-text-fill:  #FFFFFF;"/>
+            <!-- For ITEM details -->
+
+            <TextField fx:id="itemName" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Item Name" layoutX="100" layoutY="100" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="itemDescription" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Item Description" layoutX="100" layoutY="150" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="itemUnitPrice" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Unit Price" layoutX="100" layoutY="200" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="itemDiscountPercent" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Discount Percent" layoutX="100" layoutY="250" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <!-- For STOCK details -->
+            <TextField fx:id="totalQtyPurchased" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Total Quantity Purchased" layoutX="100" layoutY="300" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="totalQtySold" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Total Quantity Sold" layoutX="100" layoutY="350" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
+
+            <TextField fx:id="totalQtyAvailable" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                    promptText="Total Quantity Available" layoutX="100" layoutY="400" 
+                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                    -fx-border-width: 2px 2px 2px 2px;" />
 
         </children>
     </AnchorPane>

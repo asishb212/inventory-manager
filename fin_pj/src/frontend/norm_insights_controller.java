@@ -45,6 +45,12 @@ public class norm_insights_controller {
     }
 
     @FXML
+    private void handleHome() {
+        // Handle Open action
+        Main.NormUserDashboardSceneSwitch(User.userName);
+    }
+
+    @FXML
     private void handleInventory() {
         // Handle Save action
         showAlert("Save clicked");

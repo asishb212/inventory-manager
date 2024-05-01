@@ -12,13 +12,14 @@
     xmlns="http://javafx.com/javafx/8"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.handle_info_controller">
 
-    <top>
-        <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0">
-            <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" 
+        <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="100.0" prefWidth="1600.0">
+        <children>
+            <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="100.0" prefWidth="1600.0" 
                      style="-fx-background-color: #A59079; -fx-text-fill:WHITE;">
                 <menus>
                     <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
                         <items>
+                            <MenuItem text="Home" onAction="#handleHome"/>
                             <MenuItem text="Logout" onAction="#handleLogout"/>
                             <MenuItem text="Exit" onAction="#handleExit"/>
                         </items>
@@ -38,12 +39,13 @@
                     </Menu>
                 </menus>
             </MenuBar>
-        </AnchorPane>
-    </top>
 
-    <bottom>
-        <Label fx:id="label" text="Label" prefHeight="600" prefWidth="1400"
-        layoutX="800" layoutY="400"
-        style="-fx-font-size: 50;"/>
-    </bottom>
+            <Label fx:id="attr_label" text="Label" prefHeight="900" prefWidth="1400"
+                   layoutX="400" layoutY="10"
+                   style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
+            <Label fx:id="info_label" text="Label" prefHeight="900" prefWidth="1400"
+                   layoutX="900" layoutY="10"
+                   style="-fx-font-size: 40; -fx-text-fill: black;"/>
+            </children>
+        </AnchorPane>
 </BorderPane>

@@ -20,6 +20,12 @@ public class norm_add_item_controller {
     }
 
     @FXML
+    private void handleHome() {
+        // Handle Open action
+        Main.NormUserDashboardSceneSwitch(userName);
+    }
+
+    @FXML
     private void handleInventory() {
         // Handle Save action
         showAlert("Save clicked");
