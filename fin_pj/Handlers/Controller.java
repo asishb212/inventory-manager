@@ -473,7 +473,7 @@ public class Controller {
         
 // Manually, fetch userid    
         // Call addSupplier()
-        Controller.addSupplier(suppName, "Mark", "Jonas", "7021110000", 6L); // say userid = 38
+        Controller.addSupplier(suppName, "Mark", "Jonas", "7021110000", 6L); // say userid = 6
         
         // addSupplierAddress()
         Controller.addSupplierAddress(suppName, "801 TiffanyStreet", "Brooklyn", "NewYork", "USA", "11202");
