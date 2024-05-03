@@ -41,10 +41,10 @@
             </MenuBar>
 
             <Label fx:id="attr_label" text="Label" prefHeight="900" prefWidth="1400"
-                   layoutX="400" layoutY="10"
+                   layoutX="400" layoutY="80"
                    style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
             <Label fx:id="info_label" text="Label" prefHeight="900" prefWidth="1400"
-                   layoutX="900" layoutY="10"
+                   layoutX="900" layoutY="80"
                    style="-fx-font-size: 40; -fx-text-fill: black;"/>
             </children>
         </AnchorPane>

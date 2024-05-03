@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 
 import java.util.ArrayList;
 
-public class norm_insights_controller {
+public class insights_controller {
     @FXML
     private ComboBox<String> comboBox;
 
@@ -47,7 +47,7 @@ public class norm_insights_controller {
     @FXML
     private void handleHome() {
         // Handle Open action
-        Main.NormUserDashboardSceneSwitch(User.userName);
+        Main.DashboardSceneSwitch(User.userName);
     }
 
     @FXML
@@ -58,7 +58,7 @@ public class norm_insights_controller {
 
     @FXML
     private void handleInsights() {
-        Main.NormUserInsightsSceneSwitch();
+        Main.InsightsSceneSwitch();
     }
 
     @FXML

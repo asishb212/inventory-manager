@@ -44,15 +44,15 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-    public static void NormUserDashboardSceneSwitch(String name) {
+    public static void DashboardSceneSwitch(String name) {
         try {
 
             Main.userName = name;
 
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/norm_dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/dashboard.fxml"));
             Parent root = loader.load();
 
-            norm_dashboard_controller norm_dashboard_controller = loader.getController();
+            dashboard_controller norm_dashboard_controller = loader.getController();
             norm_dashboard_controller.setText("Hello "+name);
 
             Scene scene = new Scene(root);
@@ -72,13 +72,13 @@ public class Main extends Application {
         }
     }
 
-    public static void NormUserAddItemSceneSwitch() {
+    public static void AddItemSceneSwitch() {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/norm_add_item.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/add_item.fxml"));
             Parent root = loader.load();
 
-            norm_add_item_controller norm_add_item_controller = loader.getController();
-            norm_add_item_controller.setUsername(userName);
+            add_item_controller add_item_controller = loader.getController();
+            add_item_controller.setUsername(userName);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -87,14 +87,10 @@ public class Main extends Application {
         }
     }
 
-    public static void NormUserUpdateItemSceneSwitch() {
+    public static void UpdateItemSceneSwitch() {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/norm_update_item.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/update_item.fxml"));
             Parent root = loader.load();
-
-            norm_add_item_controller norm_add_item_controller = loader.getController();
-            norm_add_item_controller.setUsername(userName);
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
         } catch (IOException e) {
@@ -102,9 +98,9 @@ public class Main extends Application {
         }
     }
 
-    public static void NormUserInsightsSceneSwitch() {
+    public static void InsightsSceneSwitch() {
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/norm_insights.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/insights.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -120,6 +116,17 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setFullScreen(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void UpdatePwdSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/update_password.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }

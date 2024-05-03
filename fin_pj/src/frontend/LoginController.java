@@ -67,7 +67,8 @@ public class LoginController {
             User.setUserType((String) userData.get("user_type"));
 
             if (User.getUserRole().equals("Admin")) {
-                Main.AdminUserDashboardSceneSwitch();
+                //Main.AdminUserDashboardSceneSwitch();
+                Main.DashboardSceneSwitch(userName);
             }
             else {
                 if (User.getUserType().equals("S")){
@@ -80,21 +81,37 @@ public class LoginController {
                     Supplier.setContactPhone((String) Info.get("CONTACT_PHONE"));
 
                     Map<String,Object> Address = Queries.getSupplierAddress(Supplier.getSupplierID());
-
-                    System.out.println(Supplier.getSupplierID());
                     
-                    SupplierAddress.setSupplierStreet((String) Address.get("ADDR_STREET"));
-                    SupplierAddress.setSupplierCity((String) Address.get("ADDR_CITY"));
-                    SupplierAddress.setSupplierState((String) Address.get("ADDR_STATE"));
-                    SupplierAddress.setSupplierCountry((String) Address.get("ADDR_COUNTRY"));
-                    SupplierAddress.setSupplierZipcode((String) Address.get("ADDR_ZIPCODE"));
+                    address.setSupplierStreet((String) Address.get("ADDR_STREET"));
+                    address.setSupplierCity((String) Address.get("ADDR_CITY"));
+                    address.setSupplierState((String) Address.get("ADDR_STATE"));
+                    address.setSupplierCountry((String) Address.get("ADDR_COUNTRY"));
+                    address.setSupplierZipcode((String) Address.get("ADDR_ZIPCODE"));
 
-                    Main.NormUserDashboardSceneSwitch(userName);
+                    Main.DashboardSceneSwitch(userName);
+                }
+                else{
+                    Map<String,Object> Info = Queries.getCustomer(User.getUserId()) ;
+
+                    Customer.setCustomerID((long) Info.get("CUST_ID"));
+                    Customer.setFirstname((String) Info.get("FIRST_NAME"));
+                    Customer.setLastname((String) Info.get("LAST_NAME"));
+                    Customer.setPhoneNumber((String) Info.get("PHONE_NUMBER"));
+                    Customer.setEmail((String) Info.get("EMAIL"));
+
+                    Map<String,Object> Address = Queries.getCustomerAddress(Customer.getPhoneNumber());
+                    
+                    address.setSupplierStreet((String) Address.get("ADDR_STREET"));
+                    address.setSupplierCity((String) Address.get("ADDR_CITY"));
+                    address.setSupplierState((String) Address.get("ADDR_STATE"));
+                    address.setSupplierCountry((String) Address.get("ADDR_COUNTRY"));
+                    address.setSupplierZipcode((String) Address.get("ADDR_ZIPCODE"));
+
+                    Main.DashboardSceneSwitch(userName);
                 }
             }
         }
         else {
-            conn.close();
             showAlert("Wrong Login Credentials");
         }
     }

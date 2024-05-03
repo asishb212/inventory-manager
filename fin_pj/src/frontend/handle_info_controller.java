@@ -27,7 +27,7 @@ public class handle_info_controller {
     @FXML
     private void handleHome() {
         // Handle Open action
-        Main.NormUserDashboardSceneSwitch(User.userName);
+        Main.DashboardSceneSwitch(User.userName);
     }
 
     @FXML
@@ -38,7 +38,7 @@ public class handle_info_controller {
 
     @FXML
     private void handleInsights() {
-        Main.NormUserInsightsSceneSwitch();
+        Main.InsightsSceneSwitch();
     }
 
     @FXML
@@ -48,8 +48,7 @@ public class handle_info_controller {
 
     @FXML
     private void handlePwd() {
-        // Handle Copy action
-        showAlert("Copy clicked");
+        Main.UpdatePwdSceneSwitch();
     }
 
     private void showAlert(String message) {
@@ -62,9 +61,9 @@ public class handle_info_controller {
 
     public void initialize() {
 
-        String labelsText = "Username\nUser Role\nUser Type\nUser ID\nSupplier Name\nContact First Name\nContact Last Name\nContact Phone\nSupplier ID\nSupplier Street\nSupplier City\nSupplier State\nSupplier Country\nSupplier Zipcode";
+        String labelsText_supplier = "Username\nUser Role\nUser Type\nUser ID\nSupplier Name\nContact First Name\nContact Last Name\nContact Phone\nSupplier ID\nSupplier Street\nSupplier City\nSupplier State\nSupplier Country\nSupplier Zipcode";
         
-        String infoText = User.getUserName() + "\n" +
+        String infoText_supplier = User.getUserName() + "\n" +
                           User.getUserRole() + "\n" +
                           User.getUserType() + "\n" +
                           User.getUserId() + "\n" +
@@ -73,15 +72,37 @@ public class handle_info_controller {
                           Supplier.getContactLastname() + "\n" +
                           Supplier.getContactPhone() + "\n" +
                           Supplier.getSupplierID() + "\n" +
-                          SupplierAddress.getSupplierStreet() + "\n" +
-                          SupplierAddress.getSupplierCity() + "\n" +
-                          SupplierAddress.getSupplierState() + "\n" +
-                          SupplierAddress.getSupplierCountry() + "\n" +
-                          SupplierAddress.getSupplierZipcode();
+                          address.getSupplierStreet() + "\n" +
+                          address.getSupplierCity() + "\n" +
+                          address.getSupplierState() + "\n" +
+                          address.getSupplierCountry() + "\n" +
+                          address.getSupplierZipcode();
 
+        String labelsText_cust = "Username\nUser Role\nUser Type\nUser ID\nFirst Name\nLast Name\nPhone\nEmail\nStreet\nCity\nState\nCountry\nZipcode";
+        
+        String infoText_cust = User.getUserName() + "\n" +
+                                   User.getUserRole() + "\n" +
+                                   User.getUserType() + "\n" +
+                                   User.getUserId() + "\n" +
+                                   Customer.getFirstname() + "\n" +
+                                   Customer.getLastname() + "\n" +
+                                   Customer.getPhoneNumber() + "\n" +
+                                   Customer.getEmail() + "\n" +
+                                   address.getSupplierStreet() + "\n" +
+                                   address.getSupplierCity() + "\n" +
+                                   address.getSupplierState() + "\n" +
+                                   address.getSupplierCountry() + "\n" +
+                                   address.getSupplierZipcode();
 
-        attr_label.setText(labelsText);
-        info_label.setText(infoText);
+        if (User.getUserType().equals("S")){
+            attr_label.setText(labelsText_supplier);
+            info_label.setText(infoText_supplier);
+        }
+        else{
+            attr_label.setText(labelsText_cust);
+            info_label.setText(infoText_cust);
+        }
+        
     }
 }
 

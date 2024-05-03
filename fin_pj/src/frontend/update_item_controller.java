@@ -3,9 +3,7 @@ package frontend;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
-public class norm_update_item_controller {
-
-    private static String userName;
+public class update_item_controller {
     
     @FXML
     private void handleLogout() {
@@ -50,7 +48,7 @@ public class norm_update_item_controller {
 
     @FXML 
     private void handleCancel() {
-        Main.NormUserDashboardSceneSwitch(norm_update_item_controller.userName);
+        Main.DashboardSceneSwitch(User.userName);
     }
 
     private void showAlert(String message) {
@@ -59,9 +57,5 @@ public class norm_update_item_controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    public void setUsername(String text) {
-        norm_update_item_controller.userName = text;
     }
 }

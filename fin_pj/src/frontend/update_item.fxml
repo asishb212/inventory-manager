@@ -10,7 +10,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
  prefHeight="800.0" prefWidth="1600.0" 
  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
- fx:controller="frontend.norm_add_item_controller">
+ fx:controller="frontend.update_item_controller">
 
 <top>
 <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
@@ -67,6 +67,7 @@
         prefWidth="400" prefHeight="100"
         mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: orange; -fx-font-size: 40;" 
         text="Cancel" textFill="WHITE" />
+        
 
     </children>
     </AnchorPane>

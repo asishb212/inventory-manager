@@ -14,7 +14,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
     prefHeight="800.0" prefWidth="1600.0"
     xmlns="http://javafx.com/javafx/8"
-    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.norm_insights_controller">
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.insights_controller">
 
     <top>
         <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0">

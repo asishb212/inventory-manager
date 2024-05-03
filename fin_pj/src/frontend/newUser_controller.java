@@ -342,6 +342,25 @@ public class newUser_controller {
                 
                 if (user_type_value.equals("Customer")){
                     user_type = "C";
+
+                    conn = DBConnection.getConnection();
+                    Queries.setConnection(conn);
+    	            System.out.println("DB Connected is : " + conn);
+
+                    if (Queries.CheckUsername(userName)){
+                        showAlert("User name is already taken.");
+                        return;
+                    }
+
+                    if (Queries.checkCustomerPhone(phoneNumberText)){
+                        showAlert("Phone number already exists.");
+                        return;
+                    }
+                    else{
+                    Queries.addUser(userName, user_type, password);
+                    Queries.addCustomer(firstNameText, lastNameText, phoneNumberText, emailText, Queries.getUserId(userName));
+                    Queries.addCustomerAddress(phoneNumberText, addStreetText, addCityText, addStateText, addCountryText, addZipText);
+                    }
                 }
                 else{
                     user_type = "S";
@@ -360,24 +379,25 @@ public class newUser_controller {
                         return;
                     }
 
-                    if (user_type.equals("S")) {
-                        if (Queries.checkSupplierName(suppName)){
-                            showAlert("Supplier name already exists.");
-                            return;
-                        }
-                        else{
+                    if (Queries.checkSupplierName(suppName)){
+                        showAlert("Supplier name already exists.");
+                        return;
+                    }
+                    
+                    else{
                         Queries.addUser(userName, user_type, password);
                         Queries.addSupplier(userName,suppName, firstNameText, lastNameText, phoneNumberText);
                         Queries.addSupplierAddress(suppName, addStreetText, addCityText, addStateText, addCountryText, addZipText);
                         }
-                    }
+                    
                 }
             showAlert("Account successfully created!");
             Main.LoginSceneSwitch();
+            return;
         }
 
-        showAlert("Account creation failed. Try again");
-        Main.NewUserSceneSwitch();
+        //showAlert("Account creation failed. Try again");
+        //Main.NewUserSceneSwitch();
     }
 
     @FXML
