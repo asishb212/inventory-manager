@@ -6,7 +6,7 @@ public class Customer {
 	 private String custLastname;
 	 private String custPhoneNumber;	// Unique
 	 private String custEmail;
-	 private Long 	customerID;
+	 private long 	customerID;
 
 	 // constructor
 	 public Customer() {		 
@@ -18,7 +18,7 @@ public class Customer {
 	 }
 
 	 // constructor
-	 public Customer(Long custID, String firstname, String lastname, String phoneNum, String email) {	 
+	 public Customer(long custID, String firstname, String lastname, String phoneNum, String email) {	 
 		 setCustomerID(custID);
 		 setFirstname(firstname);
 		 setLastname(lastname);
@@ -45,7 +45,7 @@ public class Customer {
 		 this.custEmail = email;
 	 }
 	 
-	 public void setCustomerID(Long custID) {
+	 public void setCustomerID(long custID) {
 		 this.customerID = custID;
 	 }
 
@@ -68,7 +68,7 @@ public class Customer {
 		 return this.custEmail;
 	 }
 	 
-	 public Long getCustomerID() {
+	 public long getCustomerID() {
 		 return this.customerID;
 	 }
 

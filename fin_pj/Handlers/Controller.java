@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Controller {
 
@@ -127,7 +129,7 @@ public class Controller {
     
     // handler(): Add Supplier along-with their Address
     public static void addSupplier(String supplierName, String contactFname, String contactLname, 
-    								String contactPhone, Long userid) 
+    								String contactPhone, long userid) 
     {   	
         try {
         	psSupplier = connection.prepareStatement("Insert into SUPPLIER (SUPPLIER_NAME, "
@@ -147,7 +149,7 @@ public class Controller {
     // handler(): Add Supplier Address
     public static void addSupplierAddress(String supplierName, String street, String city, String state, String country, String zip) 
     {   	
-       	Long supplierID = null;
+       	long supplierID = 0L;
         try {
         	// get the SUPPLIER_ID
         	psSupplier = connection.prepareStatement("Select SUPPLIER_ID from SUPPLIER where SUPPLIER_NAME = ?");
@@ -214,7 +216,7 @@ public class Controller {
     // handler(): gets a SupplierAddress info. (retrieved Object info can be Viewed)
     public static SupplierAddress getSupplierAddress(String supplierName) {   	
     	SupplierAddress supplierAddressObj = null;
-        Long supplierID = 0L;
+        long supplierID = 0L;
     	
         try {
         	// get the SUPPLIER_ID
@@ -276,7 +278,7 @@ public class Controller {
     
     // handler(): Add Customer along-with their Address
     public static void addCustomer(String custFname, String custLname, 
-    								String custPhone, String custEmail, Long userid) 
+    								String custPhone, String custEmail, long userid) 
     {   	
         try {
         	psCustomer = connection.prepareStatement("Insert into CUSTOMER (FIRST_NAME, "
@@ -296,7 +298,7 @@ public class Controller {
     // handler(): Add Customer Address
     public static void addCustomerAddress(String custPhone, String street, String city, String state, String country, String zip) 
     {   	
-       	Long customerID = null;
+       	long customerID = 0L;
         try {
         	// get the CUST_ID
         	psCustomer = connection.prepareStatement("Select CUST_ID from CUSTOMER where PHONE_NUMBER = ?");
@@ -363,7 +365,7 @@ public class Controller {
     // handler(): gets a CustomerAddress info. (retrieved Object info can be Viewed)
     public static CustomerAddress getCustomerAddress(String custPhoneNumber) {   	
     	CustomerAddress customerAddressObj = null;
-        Long customerID = 0L;
+        long customerID = 0L;
     	
         try {
         	// get the CUST_ID
@@ -417,7 +419,53 @@ public class Controller {
     //// Handlers w.r.t. Stock, Item, Order objects
     ////
     
-    
+    ////////////////////////////////////////////////
+    ////////////  ITEM Queries  ////////////////////
+    ////////////////////////////////////////////////
+
+    public static void addItem(String itemName, String itemDescription, double unitPrice, double discountPercent, long supplierId) {
+        try  {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO item (item_name, item_description, item_unit_price, item_discount_percent, supplier_id) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, itemName);
+            statement.setString(2, itemDescription);
+            statement.setDouble(3, unitPrice);
+            statement.setDouble(4, discountPercent);
+            statement.setLong(5, supplierId);
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addItemStock(long totalQtyPurchased, long totalQtySold, long item_id) {
+        try {
+            LocalDate currentDate = LocalDate.now();
+        
+            // Format the date to match the MySQL DATE format (YYYY-MM-DD)
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
+
+
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO item_stock (total_qty_purchased, total_qty_sold, total_qty_available, stock_status,item_id, date_created) VALUES (?, ?, ?, ?, ?, ?)");
+
+            statement.setLong(1, totalQtyPurchased);
+            statement.setLong(2, totalQtySold);
+            statement.setLong(3, totalQtyPurchased-totalQtySold);
+            if (totalQtyPurchased-totalQtySold > 0) {
+            statement.setString(4, "A");
+            }
+            else{
+                statement.setString(4, "NA");
+            }
+            statement.setLong(5, item_id);
+            statement.setString(6, formattedDate);           
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }    
     
     
     
@@ -456,10 +504,10 @@ public class Controller {
         usrObj = Controller.getUser("user10");
         System.out.println("The Role of Username " + usrObj.getUserName() + " is : " + usrObj.getUserRole());
         
-        // Call getAllUsers() and display the Users List
+        // Call getAllUsers() and display the Users List along with their Roles
         userList = Controller.getAllUsers();        
         for (int i=0; i<userList.size(); i++) {
-        	System.out.println("Username in the userList : " + userList.get(i).getUserName());
+        	System.out.println("Username in the userList : " + userList.get(i).getUserName() + "\t" + userList.get(i).getUserRole());
         }
 
        
@@ -473,7 +521,7 @@ public class Controller {
         
 // Manually, fetch userid    
         // Call addSupplier()
-        Controller.addSupplier(suppName, "Mark", "Jonas", "7021110000", 6L); // say userid = 6
+        Controller.addSupplier(suppName, "Mark", "Jonas", "7021110000", 38L); // say userid = 38
         
         // addSupplierAddress()
         Controller.addSupplierAddress(suppName, "801 TiffanyStreet", "Brooklyn", "NewYork", "USA", "11202");
@@ -505,7 +553,8 @@ public class Controller {
         
 // Manually, fetch userid
         // Call addCustomer()
-        Controller.addCustomer("Smith", "Scott", custPhone, "ss@ggmail.com", 6L); // say userid = 6        
+        Controller.addCustomer("Smith", "Scott", custPhone, "ss@ggmail.com", 37L); // say userid = 37
+        
         // addCustomerAddress()
         Controller.addCustomerAddress(custPhone, "111 Bouldyard", "Manhattan", "NewYork", "USA", "11401");
 

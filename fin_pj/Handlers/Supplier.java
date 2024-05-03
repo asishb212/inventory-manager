@@ -6,7 +6,7 @@ public class Supplier {
 	 private String contactFirstname;
 	 private String contactLastname;
 	 private String contactPhone;
-	 private Long supplierID;
+	 private long supplierID;
 	
 	 // constructor
 	 public Supplier() {		 
@@ -16,7 +16,7 @@ public class Supplier {
 		 setSupplierName(suppName);
 	 }
 	 // constructor
-	 public Supplier(Long supplierID, String suppName, String contactFname, String contactLname, String contactPhone) {   
+	 public Supplier(long supplierID, String suppName, String contactFname, String contactLname, String contactPhone) {   
 		 setSupplierID(supplierID);
 		 setSupplierName(suppName);
 		 setContactFirstname(contactFname);
@@ -43,7 +43,7 @@ public class Supplier {
 		 this.contactPhone = contactPhoneNumber;
 	 }
 
-	 public void setSupplierID(Long supplierID) {
+	 public void setSupplierID(long supplierID) {
 		 this.supplierID = supplierID;
 	 }
 
@@ -56,17 +56,17 @@ public class Supplier {
 		
 	 public String getContactFirstname() {
 		 	return this.contactFirstname;
-		 }
+	 }
 			
 	 public String getContactLastname() {
 		 	return this.contactLastname;
-		 }
+	 }
 
 	 public String getContactPhone() {
 		 	return this.contactPhone;
-		 }
+	 }
 	
-	 public Long getSupplierID() {
+	 public long getSupplierID() {
 		 	return this.supplierID;
-		 }
+	 }
 }
