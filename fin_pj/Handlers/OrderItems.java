@@ -17,6 +17,22 @@ public class OrderItems {
 		
 	}
 
+	// New Constructor
+	public OrderItems(long orderItemId, long itemOrderedQty, double itemOrderSubTotal, 
+						double itemDiscountAmount, double itemOrderTotal, String itemOrderType, 
+						long orderId, long itemId, long stockId) {		
+		
+		setOrderItemID(orderItemId);
+		setItemOrderedQty(itemOrderedQty);
+		setItemOrderSubTotal(itemOrderSubTotal);
+		setItemDiscountAmount(itemDiscountAmount);
+		setItemOrderTotal(itemOrderTotal);
+		setItemOrderType(itemOrderType);
+		setOrderId(orderId);
+		setItemId(itemId);
+		setStockId(stockId);
+	}
+
 	///////////////////////
 	//// Setter Methods
 	///////////////////////	

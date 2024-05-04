@@ -7,10 +7,23 @@ public class Item {
     private String itemDescription;
     private double itemUnitPrice;
     private double itemDiscountPercent;
+    private long supplierId;
 
 	// constructor
 	public Item() {		
 		
+	}
+
+	// New Constructor
+	public Item(long itemId, String itemName, String itemDescription, double itemUnitPrice, 
+			double itemDiscountPercent, long supplierId) {	
+		
+		setItemId(itemId);
+		setItemName(itemName);
+		setItemDescription(itemDescription);		
+		setItemUnitPrice(itemUnitPrice);
+		setItemDiscountPercent(itemDiscountPercent);
+		setSupplierId(supplierId);
 	}
 
 	///////////////////////
@@ -36,7 +49,11 @@ public class Item {
         return this.itemDiscountPercent;
     }
 
-	///////////////////////
+    public long getSupplierId() {
+        return this.supplierId;
+    }
+
+    ///////////////////////
 	//// Setter Methods
 	///////////////////////	
     public void setItemId(long itemId) {
@@ -58,5 +75,10 @@ public class Item {
     public void setItemDiscountPercent(double itemDiscountPercent) {
     	this.itemDiscountPercent = itemDiscountPercent;
     }
+    
+    public void setSupplierId(long supplierId) {
+        this.supplierId = supplierId;
+    }
+    
     
 }

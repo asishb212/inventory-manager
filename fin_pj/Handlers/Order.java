@@ -1,6 +1,8 @@
 // Order Class that represents the ORDER table in the repository inventory_db
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Order {
 
@@ -17,6 +19,19 @@ public class Order {
 	// constructor
 	public Order() {		
 		
+	}
+
+	// New Constructor
+	public Order(long orderId, String orderType, String orderStatus, double subTotal, double taxPercent,
+			double totalAmount, long userId) {	
+		
+		setOrderID(orderId);
+		setOrderType(orderType);
+		setOrderStatus(orderStatus);
+		setSubTotal(subTotal);
+		setTaxPercent(taxPercent);
+		setTotalAmount(totalAmount);
+		setUserId(userId);
 	}
 
 	///////////////////////

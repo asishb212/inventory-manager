@@ -18,6 +18,19 @@ public class ItemStock {
 		
 	}
 
+	// New Constructor
+	public ItemStock(long stockId, long totalQtyPurchased, long totalQtySold, long totalQtyAvailable, 
+			String stockStatus, long itemId) {		
+		
+		setStockId(stockId);
+		setTotalQtyPurchased(totalQtyPurchased);
+		setTotalQtySold(totalQtySold);		
+		setTotalQtyAvailable(totalQtyAvailable);
+		setStockStatus(stockStatus);
+		setItemId(itemId);
+	}
+
+	
 	///////////////////////
 	//// Getter Methods
 	///////////////////////	
