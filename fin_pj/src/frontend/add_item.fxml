@@ -5,7 +5,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.collections.*?>
+
+
+<?import java.lang.*?>
+
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
  prefHeight="800.0" prefWidth="1600.0" 
@@ -80,10 +84,26 @@
                     style="-fx-background-color: transparent; -fx-border-color: #000080; 
                     -fx-border-width: 2px 2px 2px 2px;" />
 
-            <TextField fx:id="totalQtyAvailable" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
-                    promptText="Total Quantity Available" layoutX="100" layoutY="400" 
-                    style="-fx-background-color: transparent; -fx-border-color: #000080; 
-                    -fx-border-width: 2px 2px 2px 2px;" />
+            <ComboBox fx:id="category" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
+                       promptText="category" layoutX="100" layoutY="400" 
+                       style="-fx-background-color: transparent; -fx-border-color: #000080; 
+                       -fx-border-width: 2px 2px 2px 2px;" 
+                        >
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="Food"/>
+                     <String fx:value="Clothing"/>
+                     <String fx:value="Furniture"/>
+                     <String fx:value="Electronics"/>
+                     <String fx:value="Cosmetics"/>
+                     <String fx:value="Health"/>
+                     <String fx:value="cosmetics"/>
+                     <String fx:value="Others"/>
+
+                  </FXCollections>
+               </items>
+            </ComboBox>
+
 
         </children>
     </AnchorPane>

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -415,14 +415,27 @@ public class Queries {
     ////////////  ITEM Queries  ////////////////////
     ////////////////////////////////////////////////
 
-    public static void addItem(String itemName, String itemDescription, double unitPrice, double discountPercent, long supplierId) {
+    public static void addItem(String itemName, String itemDescription, double unitPrice, double discountPercent, long supplierId,long totalQtyPurchased, long totalQtySold, String category) {
         try  {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO item (item_name, item_description, item_unit_price, item_discount_percent, supplier_id) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO item (item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, category) VALUES (?, ?, ?, ?, ?,?,?,?,?)");
             statement.setString(1, itemName);
             statement.setString(2, itemDescription);
             statement.setDouble(3, unitPrice);
             statement.setDouble(4, discountPercent);
             statement.setLong(5, supplierId);
+
+            statement.setLong(6, totalQtyPurchased);
+            statement.setLong(7, totalQtySold);
+
+            if (totalQtyPurchased-totalQtySold > 0) {
+                statement.setString(8, "A");
+                }
+                else{
+                    statement.setString(8, "NA");
+                }
+
+            statement.setString(9, category);
+
             
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -453,9 +466,309 @@ public class Queries {
             statement.setLong(5, item_id);
             statement.setString(6, formattedDate);           
 
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public static ArrayList<Map<String, Object>> getItemDetailsByName_supp(String itemName, long supplier_id) {   	
+        ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
+        
+        try {
+            // Prepare a statement to get item details by item_name
+            PreparedStatement psItem = connection.prepareStatement(
+                "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                "FROM item WHERE item_name = ? AND supplier_id = ?");
+            psItem.setString(1, itemName);
+            psItem.setLong(2, supplier_id);
+
+            ResultSet resultSet = psItem.executeQuery();
+    
+            // Loop through the resultSet to handle multiple items with the same name
+            while (resultSet.next()) {
+                Map<String, Object> itemDetails = new HashMap<>();
+                itemDetails.put("item_id", resultSet.getLong("item_id"));
+                itemDetails.put("item_name", resultSet.getString("item_name"));
+                itemDetails.put("item_description", resultSet.getString("item_description"));
+                itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                itemDetails.put("Category", resultSet.getString("Category"));
+    
+                itemsList.add(itemDetails);
+            }
+        } catch (SQLException se) {
+            System.out.println("Could not get the specified item info. " + se.getMessage());
+        }
+        
+        return itemsList;
+    }
+    
+    public static void updateItem(String itemName, String itemDescription, double unitPrice, double discountPercent, long totalQtyPurchased, long totalQtySold, String category, long itemId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE item SET item_name=?, item_description=?, item_unit_price=?, item_discount_percent=?, total_qty_purchased=?, total_qty_sold=?, stock_status=?, category=? WHERE item_id=?");
+            statement.setString(1, itemName);
+            statement.setString(2, itemDescription);
+            statement.setDouble(3, unitPrice);
+            statement.setDouble(4, discountPercent);
+            statement.setLong(5, totalQtyPurchased);
+            statement.setLong(6, totalQtySold);
+    
+            if (totalQtyPurchased - totalQtySold > 0) {
+                statement.setString(7, "A");
+            } else {
+                statement.setString(7, "NA");
+            }
+    
+            statement.setString(8, category);
+            statement.setLong(9, itemId);
+    
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Map<String, Object>> getItemDetails(String item_text, double discount, String category, boolean status) {   	
+        ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
+        
+        try {
+            /*
+            PreparedStatement psItem = connection.prepareStatement(
+                "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                "FROM item WHERE category = ? ");
+            psItem.setString(1, category);
+
+            ResultSet resultSet = psItem.executeQuery(); */
+            if (status){
+                if(item_text.isEmpty() && category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE  item_discount_percent >= ? and stock_status = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, "A");
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(item_text.isEmpty() && !category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE  item_discount_percent >= ? AND stock_status = ? AND category = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, "A");
+                    psItem.setString(3, category);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(!item_text.isEmpty() && category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE  item_discount_percent >= ? AND stock_status = ? AND item_name = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, "A");
+                    psItem.setString(3, item_text);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(!item_text.isEmpty() && !category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE item_discount_percent >= ? AND stock_status = ? AND item_name = ? AND category = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, "A");
+                    psItem.setString(3, item_text);
+                    psItem.setString(4, category);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+            }
+            else{
+                if(item_text.isEmpty() && category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE item_discount_percent >= ? ");
+
+                    psItem.setDouble(1, discount);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(item_text.isEmpty() && !category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE item_discount_percent >= ?  AND category = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, category);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(!item_text.isEmpty() && category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE item_discount_percent >= ?  AND item_name = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, item_text);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+
+                else if(!item_text.isEmpty() && !category.isEmpty()){
+                    PreparedStatement psItem = connection.prepareStatement( "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                    "FROM item WHERE item_discount_percent >= ?  AND item_name = ? AND category = ?");
+
+                    psItem.setDouble(1, discount);
+                    psItem.setString(2, item_text);
+                    psItem.setString(3, category);
+
+                    ResultSet resultSet = psItem.executeQuery();
+
+                    while (resultSet.next()) {
+                        Map<String, Object> itemDetails = new HashMap<>();
+                        itemDetails.put("item_id", resultSet.getLong("item_id"));
+                        itemDetails.put("item_name", resultSet.getString("item_name"));
+                        itemDetails.put("item_description", resultSet.getString("item_description"));
+                        itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                        itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                        itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                        itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                        itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                        itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                        itemDetails.put("Category", resultSet.getString("Category"));
+            
+                        itemsList.add(itemDetails);
+                    }
+                }
+            }
+    
+            // Loop through the resultSet to handle multiple items with the same name
+            
+        } catch (SQLException se) {
+            System.out.println("Could not get the specified item info. " + se.getMessage());
+        }
+        
+        return itemsList;
+    }
+
+    
+
 }

@@ -54,21 +54,27 @@
     <right>
         <AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="AddItemButton" layoutX="60.0" layoutY="70.0" prefWidth="400" prefHeight="100" 
-                        mnemonicParsing="false" onAction="#handleAddItem" visible="false"
-                        style="-fx-background-color: orange; -fx-font-size: 40" text="Add Item" textFill="WHITE" />
-
-                <Button fx:id="UpdateItemButton" layoutX="60.0" layoutY="200.0" prefWidth="400" prefHeight="100" 
-                        mnemonicParsing="false" onAction="#handleUpdateItem" visible="false"
-                        style="-fx-background-color: orange; -fx-font-size: 40;" 
-                        text="Update Item" textFill="WHITE" />
 
                 <Button fx:id="OrderButton" layoutX="60.0" layoutY="70.0" prefWidth="400" prefHeight="100" 
                         mnemonicParsing="false" onAction="#handleOrder" visible="false"
-                        style="-fx-background-color: orange; -fx-font-size: 40" text="Place order" textFill="WHITE" />
+                        style="-fx-background-color: orange; -fx-font-size: 40" text="Search" textFill="WHITE" />
 
                 <Button fx:id="ManageOrderButton" layoutX="60.0" layoutY="200.0" prefWidth="400" prefHeight="100" 
                         mnemonicParsing="false" onAction="#handleManageOrder" visible="false"
+                        style="-fx-background-color: orange; -fx-font-size: 40;" 
+                        text="Manage orders" textFill="WHITE" />
+
+                <Button fx:id="CartButton" layoutX="60.0" layoutY="330.0" prefWidth="400" prefHeight="100" 
+                        mnemonicParsing="false" onAction="#handleShowCart" visible="false"
+                        style="-fx-background-color: orange; -fx-font-size: 40;" 
+                        text="Cart" textFill="WHITE" />
+
+                <Button fx:id="AddItemButton" layoutX="60.0" layoutY="500.0" prefWidth="400" prefHeight="100" 
+                        mnemonicParsing="false" onAction="#handleAddItem" visible="false"
+                        style="-fx-background-color: orange; -fx-font-size: 40" text="Add Item" textFill="WHITE" />
+
+                <Button fx:id="UpdateItemButton" layoutX="60.0" layoutY="630.0" prefWidth="400" prefHeight="100" 
+                        mnemonicParsing="false" onAction="#handleUpdateItem" visible="false"
                         style="-fx-background-color: orange; -fx-font-size: 40;" 
                         text="Update Item" textFill="WHITE" />
 

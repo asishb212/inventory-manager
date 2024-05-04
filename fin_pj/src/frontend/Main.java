@@ -132,6 +132,17 @@ public class Main extends Application {
         }
     }
 
+    public static void SearchSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/add_order.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

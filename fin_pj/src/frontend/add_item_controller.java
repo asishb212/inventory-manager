@@ -3,6 +3,7 @@ package frontend;
 import Backend.Queries;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 
@@ -29,7 +30,7 @@ public class add_item_controller {
     private TextField totalQtySold;
 
     @FXML
-    private TextField totalQtyAvailable;
+    private ComboBox<String> category;
     
     @FXML
     private void handleLogout() {
@@ -71,18 +72,34 @@ public class add_item_controller {
     }
 
     private boolean validateItemName(String itemName) {
-        return itemName != null && itemName.length() <= 30;
+        if (itemName != null && itemName.length() <= 30) {
+            return true;
+        } else {
+            showAlert("Item name must not be empty and should be 30 characters or less.");
+            return false;
+        }
     }
     
     private boolean validateItemDescription(String itemDescription) {
-        return itemDescription != null && itemDescription.length() <= 30;
+        if (itemDescription != null && itemDescription.length() <= 30) {
+            return true;
+        } else {
+            showAlert("Item description must not be empty and should be 30 characters or less.");
+            return false;
+        }
     }
     
     private boolean validateItemUnitPrice(String itemUnitPrice) {
         try {
             double price = Double.parseDouble(itemUnitPrice);
-            return String.valueOf(price).matches("^\\d{0,8}(\\.\\d{0,2})?$");
+            if (String.valueOf(price).matches("^\\d{0,8}(\\.\\d{0,2})?$")) {
+                return true;
+            } else {
+                showAlert("Invalid item unit price format.");
+                return false;
+            }
         } catch (NumberFormatException e) {
+            showAlert("Item unit price must be a valid number.");
             return false;
         }
     }
@@ -90,38 +107,48 @@ public class add_item_controller {
     private boolean validateItemDiscountPercent(String itemDiscountPercent) {
         try {
             double discount = Double.parseDouble(itemDiscountPercent);
-            return String.valueOf(discount).matches("^\\d{0,8}(\\.\\d{0,2})?$");
+            if (String.valueOf(discount).matches("^\\d{0,8}(\\.\\d{0,2})?$")) {
+                return true;
+            } else {
+                showAlert("Invalid item discount percent format.");
+                return false;
+            }
         } catch (NumberFormatException e) {
+            showAlert("Item discount percent must be a valid number.");
             return false;
         }
     }
     
     private boolean validateTotalQtyPurchased(String totalQtyPurchased) {
         try {
-            return totalQtyPurchased.matches("\\d{1,10}");
+            if (totalQtyPurchased.matches("\\d{1,10}")) {
+                return true;
+            } else {
+                showAlert("Total quantity purchased must be a valid positive integer.");
+                return false;
+            }
         } catch (NumberFormatException e) {
+            showAlert("Total quantity purchased must be a valid positive integer.");
             return false;
         }
     }
     
     private boolean validateTotalQtySold(String totalQtySold) {
         try {
-            return totalQtySold.matches("\\d{1,10}");
+            if (totalQtySold.matches("\\d{1,10}")) {
+                return true;
+            } else {
+                showAlert("Total quantity sold must be a valid positive integer.");
+                return false;
+            }
         } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-    
-    private boolean validateTotalQtyAvailable(String totalQtyAvailable) {
-        try {
-            return totalQtyAvailable.matches("\\d{1,10}");
-        } catch (NumberFormatException e) {
+            showAlert("Total quantity sold must be a valid positive integer.");
             return false;
         }
     }
     
     private boolean validateItemnumbs(long totalQtyPurchased, long total_qty_sold) {
-        if (totalQtyPurchased > total_qty_sold){
+        if (totalQtyPurchased < total_qty_sold){
             showAlert("Purchase quantity is more than sold quantity");
             return false;
         }
@@ -136,7 +163,7 @@ public class add_item_controller {
         String itemDiscountPercentText = itemDiscountPercent.getText();
         String totalQtyPurchasedText = totalQtyPurchased.getText();
         String totalQtySoldText = totalQtySold.getText();
-        String totalQtyAvailableText = totalQtyAvailable.getText();
+        String categoryText = category.getValue();
 
         if (validateItemName(itemNameText) &&
             validateItemDescription(itemDescriptionText) &&
@@ -144,23 +171,21 @@ public class add_item_controller {
             validateItemDiscountPercent(itemDiscountPercentText) &&
             validateTotalQtyPurchased(totalQtyPurchasedText) &&
             validateTotalQtySold(totalQtySoldText) &&
-            validateTotalQtyAvailable(totalQtyAvailableText)) {
+            validateItemnumbs(Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText))) {
             
             Queries.addItem(itemNameText, itemDescriptionText, 
                             Double.parseDouble(itemUnitPriceText),
                             Double.parseDouble(itemDiscountPercentText), 
-                            Supplier.getSupplierID());
+                            Supplier.getSupplierID(),
+                            Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText),
+                            categoryText);
             
-            if (validateItemnumbs(Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText))) {
-                Queries.addItemStock(Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText), Item.getItemId());
-            }
-            else{
-                return;
-            }
+            //Queries.addItemStock(Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText), 2);
 
             showAlert("Item added!");
             Main.DashboardSceneSwitch(User.userName);
-        } 
+            }
+         
         else {
             // If any validation fails, notify the user
             System.out.println("Validation failed. Please check your inputs.");

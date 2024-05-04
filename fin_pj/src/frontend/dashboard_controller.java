@@ -24,6 +24,9 @@ public class dashboard_controller {
     private Button ManageOrderButton;
 
     @FXML
+    private Button CartButton;
+
+    @FXML
     private void handleLogout() {
         // Handle New action
         Main.LoginSceneSwitch();
@@ -68,11 +71,16 @@ public class dashboard_controller {
 
     @FXML
     private void handleOrder(){
-        Main.AddItemSceneSwitch();
+        Main.SearchSceneSwitch();
     }
 
     @FXML 
     private void handleManageOrder(){
+        Main.UpdateItemSceneSwitch();
+    }
+
+    @FXML 
+    private void handleShowCart(){
         Main.UpdateItemSceneSwitch();
     }
 
@@ -92,24 +100,28 @@ public class dashboard_controller {
         if (User.getUserType().equals("S")){
             AddItemButton.setVisible(true);
             UpdateItemButton.setVisible(true);
-            OrderButton.setVisible(false);
-            ManageOrderButton.setVisible(false);
+            OrderButton.setVisible(true);
+            ManageOrderButton.setVisible(true);
+            CartButton.setVisible(true);
 
             AddItemButton.setDisable(false);
             UpdateItemButton.setDisable(false);
-            OrderButton.setDisable(true);
-            ManageOrderButton.setDisable(true);
+            OrderButton.setDisable(false);
+            ManageOrderButton.setDisable(false);
+            CartButton.setDisable(false);
         }
         else{
             AddItemButton.setVisible(false);
             UpdateItemButton.setVisible(false);
             OrderButton.setVisible(true);
             ManageOrderButton.setVisible(true);
+            CartButton.setVisible(true);
 
             AddItemButton.setDisable(true);
             UpdateItemButton.setDisable(true);
             OrderButton.setDisable(false);
             ManageOrderButton.setDisable(false);
+            CartButton.setDisable(false);
         }
     }
 }
