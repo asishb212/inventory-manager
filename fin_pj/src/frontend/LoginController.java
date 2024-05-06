@@ -49,11 +49,10 @@ public class LoginController {
     public void signin_button_handler() throws SQLException {
         String userName = usernameField.getText();
         String password = passwordField.getText();
-        //String json_login_info = "{\"password\": \"" + password + "\", \"email\": \"" + userName + "\"}";
 
         conn = DBConnection.getConnection();
         Queries.setConnection(conn);
-    	System.out.println("DB Connected is : " + conn); 
+    	//System.out.println("DB Connected is : " + conn); 
 
         boolean isLoginSuccess = Queries.checkCredentials(userName, password);
         

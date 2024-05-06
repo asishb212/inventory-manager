@@ -12,7 +12,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
  prefHeight="800.0" prefWidth="1600.0" 
  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
- fx:controller="frontend.add_order_controller">
+ fx:controller="frontend.Cart_controller">
 
 <top>
 <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
@@ -60,68 +60,22 @@
     </AnchorPane>
 </left>
 
+
 <right>
 <AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
     <children>
-
-    <Text fx:id="text" fill="#000080" layoutX="60.0" layoutY="50.0" strokeWidth="0.0" text="Search for the Item">
-        <font>
-            <Font name="Roboto" size="40.0" />
-        </font>
-    </Text>
-
-    <TextField fx:id="itemName" prefWidth="200.0" prefHeight="60.0" maxWidth="200" 
-            promptText="Item Name" layoutX="250" layoutY="100" 
-            style="-fx-background-color: transparent; -fx-border-color: #000080; 
-            -fx-border-width: 2px 2px 2px 2px;" visible="true"/>
     
-    <Label fx:id="label" text="Item name" prefHeight="100" prefWidth="200"
-                   layoutX="60" layoutY="90"
-                   style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
-
-    <ComboBox fx:id="category" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
-                        promptText="category" layoutX="250" layoutY="200" 
-                        style="-fx-background-color: transparent; -fx-border-color: #000080; 
-                        -fx-border-width: 2px 2px 2px 2px;" >
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Food"/>
-                <String fx:value="Clothing"/>
-                <String fx:value="Furniture"/>
-                <String fx:value="Electronics"/>
-                <String fx:value="Cosmetics"/>
-                <String fx:value="Health"/>
-                <String fx:value="Others"/>
-            </FXCollections>
-        </items>
-    </ComboBox>
-
-    <Label fx:id="label_cat" text="Category" prefHeight="100" prefWidth="200"
-                   layoutX="60" layoutY="190"
-                   style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
-
-    <TextField fx:id="Discount" prefWidth="200.0" prefHeight="60.0" maxWidth="200" 
-            promptText="Discount" layoutX="250" layoutY="300" 
-            style="-fx-background-color: transparent; -fx-border-color: #000080; 
-            -fx-border-width: 2px 2px 2px 2px;" visible="true"/>
-    
-    <Label fx:id="label_disc" text="Item name" prefHeight="100" prefWidth="200"
-                   layoutX="60" layoutY="290"
-                   style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
-
-    <RadioButton fx:id="radioButton" text="Show only available items" layoutX="60" layoutY="400"/>
-    
-    <Button fx:id="SearchButton" 
-        layoutX="60.0" layoutY="450"
+    <Button fx:id="OrderButton" 
+        layoutX="60.0" layoutY="150"
         prefWidth="400" prefHeight="100" 
-        mnemonicParsing="false" onAction="#handleSearch" style="-fx-background-color: orange; -fx-font-size: 40" 
-        text="Search" textFill="WHITE" />
+        mnemonicParsing="false" onAction="#handleOrder" style="-fx-background-color: orange; -fx-font-size: 40" 
+        text="Confirm and order" textFill="WHITE" />
 
     <Button fx:id="CancelButton" 
-        layoutX="60.0" layoutY="600" 
+        layoutX="60.0" layoutY="300" 
         prefWidth="400" prefHeight="100"
         mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: orange; -fx-font-size: 40;" 
-        text="Back" textFill="WHITE" />
+        text="Cancel" textFill="WHITE" />
         
 
     </children>

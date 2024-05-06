@@ -76,12 +76,12 @@ public class dashboard_controller {
 
     @FXML 
     private void handleManageOrder(){
-        Main.UpdateItemSceneSwitch();
+        Main.ManageSceneSwitch();
     }
 
     @FXML 
     private void handleShowCart(){
-        Main.UpdateItemSceneSwitch();
+        Main.CartSceneSwitch();
     }
 
     private void showAlert(String message) {

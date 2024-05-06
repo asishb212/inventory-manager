@@ -122,7 +122,6 @@
                         <String fx:value="Electronics"/>
                         <String fx:value="Cosmetics"/>
                         <String fx:value="Health"/>
-                        <String fx:value="cosmetics"/>
                         <String fx:value="Others"/>
 
                     </FXCollections>

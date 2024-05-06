@@ -180,8 +180,6 @@ public class add_item_controller {
                             Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText),
                             categoryText);
             
-            //Queries.addItemStock(Long.parseLong(totalQtyPurchasedText), Long.parseLong(totalQtySoldText), 2);
-
             showAlert("Item added!");
             Main.DashboardSceneSwitch(User.userName);
             }

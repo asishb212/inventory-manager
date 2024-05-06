@@ -24,7 +24,7 @@ public class Queries {
     private static PreparedStatement psAddress;
     private static PreparedStatement psUpdateUser;
     private static PreparedStatement psCustomer;
-
+    private static PreparedStatement psOrder;
 
     public static void setConnection(Connection connection){
         Queries.connection = connection;
@@ -265,8 +265,6 @@ public class Queries {
                 String state = resultSet.getString("ADDR_STATE");
                 String country = resultSet.getString("ADDR_COUNTRY");
                 String zipcode = resultSet.getString("ADDR_ZIPCODE");
-
-                System.out.println(street);
 
                 supplierInfo.put("ADDR_STREET", street);
                 supplierInfo.put("ADDR_CITY", city);
@@ -769,6 +767,140 @@ public class Queries {
         return itemsList;
     }
 
-    
+    public static Map<String, Object> getItemDetailsBy_SId_IId(long item_id, long supplier_id) {   	
 
+        Map<String, Object> itemDetails = new HashMap<>();
+
+        try {
+            // Prepare a statement to get item details by item_name
+            PreparedStatement psItem = connection.prepareStatement(
+                "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                "FROM item WHERE item_id = ? AND supplier_id = ?");
+            psItem.setLong(1, item_id);
+            psItem.setLong(2, supplier_id);
+
+            ResultSet resultSet = psItem.executeQuery();
+    
+            // Loop through the resultSet to handle multiple items with the same name
+            while (resultSet.next()) {
+                
+                itemDetails.put("item_id", resultSet.getLong("item_id"));
+                itemDetails.put("item_name", resultSet.getString("item_name"));
+                itemDetails.put("item_description", resultSet.getString("item_description"));
+                itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                itemDetails.put("Category", resultSet.getString("Category"));
+    
+                break;
+            }
+        } catch (SQLException se) {
+            System.out.println("Could not get the specified item info. " + se.getMessage());
+        }
+        
+        return itemDetails;
+    }
+
+    public static void addOrder(long userid, String orderType, String items, String quantities) {
+
+        LocalDate currentDate = LocalDate.now();
+        
+        // Format the date to match the MySQL DATE format (YYYY-MM-DD)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+
+        String orderStatus = "PAID"; 
+        double taxPercent = 10.0;
+        
+        //// Insert into ORDER table
+        try {
+            psOrder = connection.prepareStatement("Insert into orders (ORDER_TYPE, ORDER_STATUS, "
+                    + "TAX_PERCENT,items,quantities, USER_ID, DATE_CREATED) " 
+                    + "values (?,?,?,?,?,?,?) ");
+
+            psOrder.setString(1, orderType); 
+            psOrder.setString(2, orderStatus); 
+            psOrder.setDouble(3, taxPercent);
+            psOrder.setString(4, items);
+            psOrder.setString(5, quantities);
+            psOrder.setLong(6, userid);
+            psOrder.setString(7, formattedDate);  
+        
+            psOrder.executeUpdate();
+
+        } catch(SQLException se) {
+            System.out.println("Could not place the Order and update item Stock. " + se.getMessage());
+        }      	
+    }
+
+    public static ArrayList<Map<String,Object>> getOrders_by_uID(long userId){
+
+        ArrayList<Map<String, Object>> orderDetailsList = new ArrayList<>();
+
+        try {
+            psOrder = connection.prepareStatement("select order_id, order_type, order_status,tax_percent,items, quantities, user_id, date_created from orders where user_id = ?");
+
+            psOrder.setLong(1, userId);
+
+            ResultSet resultSet = psOrder.executeQuery();
+
+            while (resultSet.next()) {
+                Map<String, Object> orderDetails = new HashMap<>();
+                orderDetails.put("order_id", resultSet.getLong("order_id"));
+                orderDetails.put("order_type", resultSet.getString("order_type"));
+                orderDetails.put("order_status", resultSet.getString("order_status"));
+                orderDetails.put("tax_percent", resultSet.getBigDecimal("tax_percent"));
+                orderDetails.put("items", resultSet.getString("items"));
+                orderDetails.put("quantities", resultSet.getString("quantities"));
+                orderDetails.put("user_id", resultSet.getLong("user_id"));
+                orderDetails.put("date_created", resultSet.getTimestamp("date_created")); 
+    
+                orderDetailsList.add(orderDetails);
+            }
+
+        } catch(SQLException se) {
+            System.out.println("Could not pget results. " + se.getMessage());
+        }
+
+        return orderDetailsList;
+    }
+
+    public static Map<String,Object> getItems_by_uID_orderID(long item_id){
+
+        Map<String, Object> itemDetails = new HashMap<>();
+
+        try {
+            // Prepare a statement to get item details by item_name
+            PreparedStatement psItem = connection.prepareStatement(
+                "SELECT item_id, item_name, item_description, item_unit_price, item_discount_percent, supplier_id, total_qty_purchased, total_qty_sold, stock_status, Category " +
+                "FROM item WHERE item_id = ? ");
+            psItem.setLong(1, item_id);
+
+            ResultSet resultSet = psItem.executeQuery();
+    
+            // Loop through the resultSet to handle multiple items with the same name
+            while (resultSet.next()) {
+                
+                itemDetails.put("item_id", resultSet.getLong("item_id"));
+                itemDetails.put("item_name", resultSet.getString("item_name"));
+                itemDetails.put("item_description", resultSet.getString("item_description"));
+                itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                itemDetails.put("Category", resultSet.getString("Category"));
+    
+                break;
+            }
+        } catch (SQLException se) {
+            System.out.println("Could not get the specified item info. " + se.getMessage());
+        }
+        
+        return itemDetails;
+    }
 }

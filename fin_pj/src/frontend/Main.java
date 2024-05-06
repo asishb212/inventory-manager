@@ -143,6 +143,28 @@ public class Main extends Application {
         }
     }
 
+    public static void CartSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/Cart.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void ManageSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/manage_order.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

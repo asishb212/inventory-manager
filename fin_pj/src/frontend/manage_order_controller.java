@@ -12,13 +12,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import Backend.*;
 
-public class add_order_controller {
-
-    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Stock Status", "Category","Quantity"};
+public class manage_order_controller {
+    
+    private String[] headers = {"order_type", "order_status", "tax_percent", "items", "date_created"};
 
     @FXML
     private GridPane detailsGrid;
@@ -75,8 +76,19 @@ public class add_order_controller {
     }
 
     @FXML
-    private void handleSearch() {
-        
+    public void handleCancel() {
+        Main.DashboardSceneSwitch(User.getUserName());
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Action");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void getOrders() {
         detailsGrid.getChildren().clear();
 
         for (int i = 0; i < headers.length; i++) {
@@ -84,20 +96,44 @@ public class add_order_controller {
             detailsGrid.add(headerLabel, i, 0);
         }
 
-        boolean isSelected = radioButton.isSelected();
-        String itemNamegotText = itemName.getText();
-        String itemDiscountPercentText = Discount.getText();
-        String categoryGotText = category.getValue();
+        ArrayList<Map<String,Object>> orderDetailsList = Queries.getOrders_by_uID(User.getUserId());
 
-        Double discountDouble = (itemDiscountPercentText.isEmpty()) ? 0 : Double.parseDouble(itemDiscountPercentText);
-        String itemNameText = (itemNamegotText == null) ? "" : itemNamegotText;
-        String categoryText = (categoryGotText == null) ? "" : categoryGotText;
+        for (int i = 0; i < orderDetailsList.size(); i++) {
+            Map<String, Object> order = orderDetailsList.get(i);
 
-        ArrayList<Map<String, Object>> itemsList = Queries.getItemDetails(itemNameText,discountDouble,
-                                                                        categoryText,isSelected);
+            String items_st = (String) order.get("items");
+            int items_count = items_st.split(";").length;
+            
+            detailsGrid.add(new Label((String) order.get("order_type")), 0, i + 1);
+            detailsGrid.add(new Label((String) order.get("order_status")), 1, i + 1);
+            detailsGrid.add(new Label(order.get("tax_percent").toString()), 2, i + 1);
+            detailsGrid.add(new Label(Integer.toString(items_count)), 3, i + 1);
+            detailsGrid.add(new Label(order.get("date_created").toString().substring(0, 10)), 4, i + 1);
 
-        for (int i = 0; i < itemsList.size(); i++) {
-            Map<String, Object> item = itemsList.get(i);
+            Button actionBtn = new Button("    Edit    ");
+            actionBtn.setOnAction(event -> handleEditAction(event, order));
+
+            detailsGrid.add(actionBtn, 5, i+1);
+            }
+    }
+
+    private void handleEditAction(ActionEvent event, Map<String,Object> order){
+
+        long order_id = (long) order.get("order_id");
+
+        String item_ids_str = (String) order.get("items");
+        long item_ids[] = Arrays.stream(item_ids_str.split(";")).mapToLong(Long::parseLong).toArray();
+
+        String quantity_str = (String) order.get("quantities");
+        long quantities[] = Arrays.stream(quantity_str.split(";")).mapToLong(Long::parseLong).toArray();
+
+        Map<String,Object> itemsList = Queries.getItems_by_uID_orderID(order_id);
+        System.out.println(itemsList.size());
+
+        detailsGrid.getChildren().clear();
+
+        for (int i = 0; i < item_ids.length; i++) {
+            Map<String, Object> item = Queries.getItems_by_uID_orderID(item_ids[i]);
             
             detailsGrid.add(new Label((String) item.get("item_name")), 0, i + 1);
             detailsGrid.add(new Label((String) item.get("item_description")), 1, i + 1);
@@ -106,7 +142,7 @@ public class add_order_controller {
             detailsGrid.add(new Label((String) item.get("stock_status")), 4, i + 1);
             detailsGrid.add(new Label((String) item.get("Category")), 5, i + 1);
 
-            TextField quantityField = new TextField("0");
+            TextField quantityField = new TextField(String.valueOf(quantities[i]));
             quantityField.setPrefWidth(40);
 
             Button increment = new Button("+");
@@ -124,53 +160,18 @@ public class add_order_controller {
             quantityControl.add(quantityField, 1, 0);
             quantityControl.add(increment, 2, 0);
 
-            VBox quantityBox = new VBox();  // Spacing parameter can be adjusted for more vertical space
+            VBox quantityBox = new VBox(); 
             Label quantityLabel = new Label("     ");
-            quantityLabel.setStyle("-fx-font-size: 3px; -fx-padding: 2 0;"); // Smaller font size and padding
+            quantityLabel.setStyle("-fx-font-size: 3px; -fx-padding: 2 0;"); 
             quantityBox.getChildren().add(quantityLabel);            
             quantityBox.getChildren().add(quantityControl);
 
             detailsGrid.add(quantityBox, 6, i + 1);
-
-            String ss = (String) item.get("stock_status");
-
-            if (ss.equals("A")){
-                Button actionBtn = new Button("    Add    ");
-                actionBtn.setOnAction(event -> handleUpdateAction(event, item, quantityField));
-
-                detailsGrid.add(actionBtn, 7, i+1);
-            }
         }
-    }
-
-    private void handleUpdateAction(ActionEvent event, Map<String, Object> itemDetails, TextField quantityField) {
-
-        String quantityText = quantityField.getText();
-        long quantity = (quantityText.isEmpty()) ? 0 : Long.parseLong(quantityText);
-
-        ArrayList<Long> deets = new ArrayList<>();
-        deets.add((long) itemDetails.get("item_id"));
-        deets.add((long) itemDetails.get("supplier_id"));
-        deets.add(quantity);
-
-        cart_items.addItem(deets);
-    }
-
-    @FXML 
-    private void handleCancel() {
-        Main.DashboardSceneSwitch(User.userName);
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        
     }
 
     public void initialize(){
-        handleSearch();
+        getOrders();
     }
-
 }
