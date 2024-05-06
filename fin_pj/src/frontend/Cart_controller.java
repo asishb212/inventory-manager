@@ -129,6 +129,8 @@ public class Cart_controller {
             quantities += cart_items.get_cart_items().get(i).get(2).toString();
             quantities += ";";
 
+            Queries.updateQuantity((long) itemsDetails.get("item_id"),(long) cart_items.get_cart_items().get(i).get(2));
+
             i++;
         }
 
