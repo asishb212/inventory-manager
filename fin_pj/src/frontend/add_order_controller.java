@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -18,10 +19,13 @@ import Backend.*;
 
 public class add_order_controller {
 
-    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Stock Status", "Category","Quantity"};
+    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Stock Status", "Category","Quantity","          ","           ","           ","        ","        ","        ","        ","        ","        "};
 
     @FXML
     private GridPane detailsGrid;
+
+    @FXML
+    private ScrollPane scrollPane;
     
     @FXML
     private RadioButton radioButton;
@@ -81,6 +85,7 @@ public class add_order_controller {
 
         for (int i = 0; i < headers.length; i++) {
             Label headerLabel = new Label(headers[i]);
+            headerLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
             detailsGrid.add(headerLabel, i, 0);
         }
 
@@ -95,23 +100,41 @@ public class add_order_controller {
 
         ArrayList<Map<String, Object>> itemsList = Queries.getItemDetails(itemNameText,discountDouble,
                                                                         categoryText,isSelected);
-
+                                           
         for (int i = 0; i < itemsList.size(); i++) {
+
             Map<String, Object> item = itemsList.get(i);
-            
-            detailsGrid.add(new Label((String) item.get("item_name")), 0, i + 1);
-            detailsGrid.add(new Label((String) item.get("item_description")), 1, i + 1);
-            detailsGrid.add(new Label(item.get("item_unit_price").toString()), 2, i + 1);
-            detailsGrid.add(new Label(item.get("item_discount_percent").toString()), 3, i + 1);
-            detailsGrid.add(new Label((String) item.get("stock_status")), 4, i + 1);
-            detailsGrid.add(new Label((String) item.get("Category")), 5, i + 1);
+
+            Label namelabel = new Label((String) item.get("item_name"));
+            namelabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(namelabel, 0, i + 1);
+
+            Label descriptionLabel = new Label((String) item.get("item_description"));
+            descriptionLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(descriptionLabel, 1, i + 1);
+
+            Label priceLabel = new Label(item.get("item_unit_price").toString());
+            priceLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(priceLabel, 2, i + 1);
+
+            Label discountLabel = new Label(item.get("item_discount_percent").toString());
+            discountLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(discountLabel, 3, i + 1);
+
+            Label statusLabel = new Label((String) item.get("stock_status"));
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, i + 1);
+
+            Label categoryLabel = new Label((String) item.get("Category"));
+            categoryLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(categoryLabel, 5, i + 1);
 
             TextField quantityField = new TextField("0");
             quantityField.setPrefWidth(40);
 
             Button increment = new Button("+");
             increment.setOnAction(e -> quantityField.setText(String.valueOf(Integer.parseInt(quantityField.getText()) + 1)));
-            
+    
             Button decrement = new Button("-");
             decrement.setOnAction(e -> {
                 int current = Integer.parseInt(quantityField.getText());
@@ -138,8 +161,14 @@ public class add_order_controller {
                 Button actionBtn = new Button("    Add    ");
                 actionBtn.setOnAction(event -> handleUpdateAction(event, item, quantityField));
 
-                detailsGrid.add(actionBtn, 7, i+1);
+                detailsGrid.add(actionBtn, 7, i + 1);
             }
+        }
+
+        for (int j = itemsList.size(); j < 20; j++){
+            Label statusLabel = new Label("              ");
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, j + 1);
         }
     }
 
@@ -170,6 +199,9 @@ public class add_order_controller {
     }
 
     public void initialize(){
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+
         handleSearch();
     }
 

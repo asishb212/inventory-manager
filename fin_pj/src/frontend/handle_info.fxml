@@ -10,28 +10,28 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
     prefHeight="800.0" prefWidth="1600.0"
     xmlns="http://javafx.com/javafx/8"
-    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.handle_info_controller">
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.handle_info_controller" style="-fx-background-color: #6200ee;">
 
-        <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="100.0" prefWidth="1600.0">
+        <AnchorPane maxHeight="10.0" maxWidth="1600.0" prefHeight="10.0" prefWidth="1600.0">
         <children>
-            <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="100.0" prefWidth="1600.0" 
-                     style="-fx-background-color: #A59079; -fx-text-fill:WHITE;">
+            <MenuBar maxHeight="10.0" maxWidth="1600.0" prefHeight="10.0" prefWidth="1600.0" 
+                     style="-fx-background-color: #c7c6c1; -fx-text-fill:WHITE;">
                 <menus>
-                    <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
+                    <Menu text="File" style="-fx-font-size: 20; -text-color: WHITE;">
                         <items>
                             <MenuItem text="Home" onAction="#handleHome"/>
                             <MenuItem text="Logout" onAction="#handleLogout"/>
                             <MenuItem text="Exit" onAction="#handleExit"/>
                         </items>
                     </Menu>
-                    <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+                    <Menu text="View" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
 
                         <items>
                             <MenuItem text="Inventory" onAction="#handleInventory"/>
                             <MenuItem text="Insights" onAction="#handleInsights"/>
                         </items>
                     </Menu>
-                    <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+                    <Menu text="Account" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
                         <items>
                             <MenuItem text="Info" onAction="#handleInfo"/>
                             <MenuItem text="Change password" onAction="#handlePwd"/>
@@ -41,11 +41,11 @@
             </MenuBar>
 
             <Label fx:id="attr_label" text="Label" prefHeight="900" prefWidth="1400"
-                   layoutX="400" layoutY="80"
-                   style="-fx-font-size: 40; -fx-text-fill: #000080;"/>
+                   layoutX="400" layoutY="11"
+                   style="-fx-font-size: 35; -fx-text-fill: #8cee00;"/>
             <Label fx:id="info_label" text="Label" prefHeight="900" prefWidth="1400"
-                   layoutX="900" layoutY="80"
-                   style="-fx-font-size: 40; -fx-text-fill: black;"/>
+                   layoutX="900" layoutY="11"
+                   style="-fx-font-size: 35; -fx-text-fill: #ffffff;"/>
             </children>
         </AnchorPane>
 </BorderPane>

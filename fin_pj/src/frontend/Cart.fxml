@@ -15,25 +15,25 @@
  fx:controller="frontend.Cart_controller">
 
 <top>
-<AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
-    <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0"
-       style="-fx-background-color: #A59079; -fx-text-fill:WHITE;" >
+<AnchorPane maxHeight="10.0" maxWidth="1600.0" prefHeight="10.0" prefWidth="1600.0" >
+    <MenuBar maxHeight="10.0" maxWidth="1600.0" prefHeight="10.0" prefWidth="1600.0"
+       style="-fx-background-color: #c7c6c1; -fx-text-fill:WHITE;" >
         <menus>
-            <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
+            <Menu text="File" style="-fx-font-size: 20; -text-color: WHITE;">
                 <items>
                     <MenuItem text="Home" onAction="#handleHome"/>
                     <MenuItem text="Logout" onAction="#handleLogout"/>
                     <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
             </Menu>
-            <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+            <Menu text="View" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
             
                 <items>
                     <MenuItem text="Inventory" onAction="#handleInventory"/>
                     <MenuItem text="Insights" onAction="#handleInsights"/>
                 </items>
             </Menu>
-            <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+            <Menu text="Account" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
                 <items>
                     <MenuItem text="Info" onAction="#handleInfo"/>
                     <MenuItem text="Change password" onAction="#handlePwd"/>
@@ -47,12 +47,14 @@
 </top>
 
 <left>
-    <AnchorPane fx:id="searchOP" maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #FFFFFF;">
+    <AnchorPane fx:id="searchOP" maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #6200ee;">
         <children>  
-                <ScrollPane fx:id="scrollPane" prefHeight="600.0" prefWidth="1000.0" visible="true" stylesheets="@update_item_css.css"
+                <ScrollPane fx:id="scrollPane" prefHeight="600.0" prefWidth="1000.0" visible="true"
+                            style="-fx-background-color: #6200ee;"
                             layoutX="20" layoutY="100">
                     <content>
-                        <GridPane fx:id="detailsGrid" hgap="10" vgap="5">
+                        <GridPane fx:id="detailsGrid" hgap="10" vgap="5"
+                        style="-fx-background-color: #6200ee; -fx-text-fill: #FFFFFF;">
                         </GridPane>
                     </content>
                 </ScrollPane>
@@ -62,20 +64,31 @@
 
 
 <right>
-<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #6200ee;" BorderPane.alignment="CENTER">
     <children>
+
+    <VBox alignment="CENTER" prefHeight="680.0" prefWidth="470.0" 
+               BorderPane.alignment="CENTER" style="-fx-background-color: #e8e8e8; -fx-background-radius: 20;" 
+               layoutX="1" layoutY="50" spacing="10">
+    </VBox>
     
     <Button fx:id="OrderButton" 
-        layoutX="60.0" layoutY="150"
+        layoutX="40" layoutY="300"
         prefWidth="400" prefHeight="100" 
-        mnemonicParsing="false" onAction="#handleOrder" style="-fx-background-color: orange; -fx-font-size: 40" 
+        mnemonicParsing="false" onAction="#handleOrder" style="-fx-background-color: #33b249; -fx-font-size: 40" 
         text="Confirm and order" textFill="WHITE" />
 
     <Button fx:id="CancelButton" 
-        layoutX="60.0" layoutY="300" 
+        layoutX="40" layoutY="600" 
         prefWidth="400" prefHeight="100"
-        mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: orange; -fx-font-size: 40;" 
-        text="Cancel" textFill="WHITE" />
+        mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #ffbd03; -fx-font-size: 40;" 
+        text="Back" textFill="WHITE" />
+
+    <Button fx:id="EmptyButton" 
+        layoutX="40" layoutY="450" 
+        prefWidth="400" prefHeight="100"
+        mnemonicParsing="false" onAction="#handleEmpty" style="-fx-background-color: #ED0800; -fx-font-size: 40;" 
+        text="Empty the cart" textFill="WHITE" />
         
 
     </children>

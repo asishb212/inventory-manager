@@ -67,7 +67,7 @@ public class LoginController {
 
             if (User.getUserRole().equals("Admin")) {
                 //Main.AdminUserDashboardSceneSwitch();
-                Main.DashboardSceneSwitch(userName);
+                Main.AdminUserDashboardSceneSwitch();
             }
             else {
                 if (User.getUserType().equals("S")){

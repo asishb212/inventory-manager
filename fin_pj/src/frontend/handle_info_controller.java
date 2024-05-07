@@ -61,7 +61,7 @@ public class handle_info_controller {
 
     public void initialize() {
 
-        String labelsText_supplier = "Username\nUser Role\nUser Type\nUser ID\nSupplier Name\nContact First Name\nContact Last Name\nContact Phone\nSupplier ID\nSupplier Street\nSupplier City\nSupplier State\nSupplier Country\nSupplier Zipcode";
+        String labelsText_supplier = "Username\nUser Role\nUser Type\nUser ID\nSupplier Name\nContact First Name\nContact Last Name\nContact Phone\n ID\nStreet\nCity\nState\nCountry\nZipcode";
         
         String infoText_supplier = User.getUserName() + "\n" +
                           User.getUserRole() + "\n" +

@@ -1,17 +1,21 @@
-.label {
-    -fx-font-size: 16px; /* Larger text size */
-    -fx-padding: 10px; /* Padding to increase cell size */
+#label {
+    font-size: 16px; /* Larger text size */
+    padding: 10px; /* Padding to increase cell size */
 }
 
-.grid-pane {
-    -fx-hgap: 20px; /* Wider horizontal gaps */
-    -fx-vgap: 15px; /* Taller vertical gaps */
+#grid-pane {
+    hgap: 20px; /* Wider horizontal gaps */
+    vgap: 15px; /* Taller vertical gaps */
 }
 
-.default-row {
-    -fx-background-color: transparent; /* Default background */
+#default-row {
+    background-color: #FFFFFF; /* Default background */
 }
 
-.alternate-row {
-    -fx-background-color: #808080; /* Light grey background for alternate rows */
+#alternate-row {
+    background-color: #808080; /* Light grey background for alternate rows */
+}
+
+#detailsGrid {
+    text-fill: #FFFFFF;
 }

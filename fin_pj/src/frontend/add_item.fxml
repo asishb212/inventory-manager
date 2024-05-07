@@ -17,25 +17,25 @@
  fx:controller="frontend.add_item_controller">
 
 <top>
-<AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" >
-    <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0"
-       style="-fx-background-color: #A59079; -fx-text-fill:WHITE;" >
+<AnchorPane maxHeight="10" maxWidth="1600.0" prefHeight="10" prefWidth="1600.0" style="-fx-background-color: #FFFFFF;">
+    <MenuBar maxHeight="10" maxWidth="1600.0" prefHeight="10" prefWidth="1600.0"
+       style="-fx-background-color: #c7c6c1; -fx-text-fill:WHITE;" >
         <menus>
-            <Menu text="File" style="-fx-font-size: 50; -text-color: WHITE;">
+            <Menu text="File" style="-fx-font-size: 20; -text-color: WHITE;">
                 <items>
                     <MenuItem text="Home" onAction="#handleHome"/>
                     <MenuItem text="Logout" onAction="#handleLogout"/>
                     <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
             </Menu>
-            <Menu text="View" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+            <Menu text="View" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
             
                 <items>
                     <MenuItem text="Inventory" onAction="#handleInventory"/>
                     <MenuItem text="Insights" onAction="#handleInsights"/>
                 </items>
             </Menu>
-            <Menu text="Account" style="-fx-font-size: 50; -fx-text-fill: WHITE;">
+            <Menu text="Account" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
                 <items>
                     <MenuItem text="Info" onAction="#handleInfo"/>
                     <MenuItem text="Change password" onAction="#handlePwd"/>
@@ -49,7 +49,7 @@
 </top>
 
 <left>
-    <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+    <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #6200ee;" BorderPane.alignment="CENTER">
         <children>
             <!-- For ITEM details -->
 
@@ -97,7 +97,6 @@
                      <String fx:value="Electronics"/>
                      <String fx:value="Cosmetics"/>
                      <String fx:value="Health"/>
-                     <String fx:value="cosmetics"/>
                      <String fx:value="Others"/>
 
                   </FXCollections>
@@ -110,7 +109,7 @@
 </left>
 
 <right>
-<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #6200ee;" BorderPane.alignment="CENTER">
     <children>
     <Button fx:id="ConfirmButton" 
         layoutX="60.0" layoutY="70.0"

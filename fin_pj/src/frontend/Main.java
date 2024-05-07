@@ -16,10 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Main.stage = primaryStage;
-        Main.stage.setFullScreen(true);
-
         LoginSceneSwitch();
-        primaryStage.setTitle("Project");
+        primaryStage.setTitle("Inventory Management");
         primaryStage.show();
     }
 
@@ -29,7 +27,7 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setFullScreen(true);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,6 +38,7 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,6 +56,8 @@ public class Main extends Application {
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,6 +68,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,6 +85,8 @@ public class Main extends Application {
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,6 +98,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,6 +111,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,7 +124,7 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setFullScreen(true);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,6 +136,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,6 +149,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,6 +162,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,6 +175,8 @@ public class Main extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            
+
         } catch (IOException e) {
             e.printStackTrace();
         }

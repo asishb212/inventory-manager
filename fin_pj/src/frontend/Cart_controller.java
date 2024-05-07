@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import Backend.*;
 public class Cart_controller {
     @FXML
     private GridPane detailsGrid;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private void handleLogout() {
@@ -60,6 +64,8 @@ public class Cart_controller {
         Main.DashboardSceneSwitch(User.userName);
     }
 
+    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Stock Status", "Category","Quantity","          ","           ","           ","        ","        ","        ","        ","        ","        "};
+
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Action");
@@ -69,28 +75,57 @@ public class Cart_controller {
     }
 
     public void initialize() {
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+
         updateGrid();
     }
 
     public void updateGrid(){
         detailsGrid.getChildren().clear();  // Clear the grid before adding new elements
 
+        for (int i = 0; i < headers.length; i++) {
+            Label headerLabel = new Label(headers[i]);
+            headerLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(headerLabel, i, 0);
+        }
+
         int i = 0;
         for (ArrayList<Long> item : cart_items.get_cart_items()){
             Map<String, Object> itemsDetails = Queries.getItemDetailsBy_SId_IId(item.get(0),item.get(1));
 
-            detailsGrid.add(new Label((String) itemsDetails.get("item_name")), 0, i + 1);
-            detailsGrid.add(new Label((String) itemsDetails.get("item_description")), 1, i + 1);
-            detailsGrid.add(new Label(itemsDetails.get("item_unit_price").toString()), 2, i + 1);
-            detailsGrid.add(new Label(itemsDetails.get("item_discount_percent").toString()), 3, i + 1);
-            detailsGrid.add(new Label((String) itemsDetails.get("stock_status")), 4, i + 1);
-            detailsGrid.add(new Label((String) itemsDetails.get("Category")), 5, i + 1);
-            detailsGrid.add(new Label(cart_items.get_cart_items().get(i).get(2).toString()), 6, i + 1);
+            Label namelabel = new Label((String) itemsDetails.get("item_name"));
+            namelabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(namelabel, 0, i + 1);
+
+            Label descriptionLabel = new Label((String) itemsDetails.get("item_description"));
+            descriptionLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(descriptionLabel, 1, i + 1);
+
+            Label priceLabel = new Label(itemsDetails.get("item_unit_price").toString());
+            priceLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(priceLabel, 2, i + 1);
+
+            Label discountLabel = new Label(itemsDetails.get("item_discount_percent").toString());
+            discountLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(discountLabel, 3, i + 1);
+
+            Label statusLabel = new Label((String) itemsDetails.get("stock_status"));
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, i + 1);
+
+            Label categoryLabel = new Label((String) itemsDetails.get("Category"));
+            categoryLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(categoryLabel, 5, i + 1);
+
+            Label qunatityLabel = new Label(cart_items.get_cart_items().get(i).get(2).toString());
+            qunatityLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(qunatityLabel, 6, i + 1);
 
             String ss = (String) itemsDetails.get("stock_status");
 
             if (ss.equals("A")){
-                Button actionBtn = new Button("Delete");
+                Button actionBtn = new Button("     Delete     ");
 
                 actionBtn.setOnAction(event -> handleDeleteAction(event, item));
 
@@ -98,6 +133,12 @@ public class Cart_controller {
             }
 
             i++;
+        }
+
+        for (int j = cart_items.items.size(); j < 20; j++){
+            Label statusLabel = new Label("              ");
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, j + 1);
         }
     }
 
@@ -140,5 +181,10 @@ public class Cart_controller {
         showAlert("Total Price after Discounts: $" + formattedTotalPrice);
 
         cart_items.items.clear();
+    }
+
+    public void handleEmpty(){
+        cart_items.items.clear();
+        updateGrid();
     }
 }

@@ -11,11 +11,11 @@
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.LoginController">
 
    <top>
-      <AnchorPane maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0">
-         <MenuBar maxHeight="100.0" maxWidth="1600.0" prefHeight="400.0" prefWidth="1600.0" 
-                  style="-fx-background-color: #A59079; -fx-text-fill:  #000000;">
+      <AnchorPane prefHeight="10.0" prefWidth="1600.0">
+         <MenuBar prefHeight="10.0" prefWidth="1600.0" 
+                  style="-fx-background-color: #c7c6c1; -fx-text-fill:  #000000;">
             <menus>
-               <Menu text="File" style="-fx-font-size: 50; -text-color: #000000;">
+               <Menu text="File" style="-fx-font-size: 20; -text-color: #000000;">
                   <items>
                      <MenuItem text="Exit" onAction="#handleExit"/>
                   </items>
@@ -26,7 +26,7 @@
    </top>
 
    <left>
-      <AnchorPane prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #000080;" 
+      <AnchorPane prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: #6200ee;" 
                   BorderPane.alignment="CENTER">
          <children>
             <Text fill="WHITE" layoutX="120.0" layoutY="422.0" strokeWidth="0.0" text="Inventory Manager">
@@ -39,34 +39,34 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane prefHeight="500.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="500.0" prefWidth="700.0" BorderPane.alignment="CENTER" style="-fx-background-color: #6200ee;">
          <VBox alignment="CENTER" prefHeight="400.0" prefWidth="400.0" 
                BorderPane.alignment="CENTER" style="-fx-background-color: #e8e8e8; -fx-background-radius: 20;" 
-               layoutX="200.0" layoutY="230.0" spacing="10">
+               layoutX="110" layoutY="170" spacing="10">
          </VBox>
 
          <children>
 
-            <Text fill="#000080" strokeWidth="0.0" text="Login" layoutX="320.0" layoutY="300.0">
+            <Text fill="#000080" strokeWidth="0.0" text="Login" layoutX="240" layoutY="250">
                <font>
                   <Font name="Roboto" size="60.0" />
                </font>
             </Text>
 
             <TextField fx:id="usernameField" prefWidth="200.0" prefHeight="40.0" maxWidth="200" 
-                       promptText="User Id" layoutX="250.0" layoutY="350.0" 
-                       style="-fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
-
+                       promptText="User Id" layoutX="210" layoutY="330" 
+                       style="-fx-font-size: 20; -fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
+        
             <PasswordField fx:id="passwordField" 
-                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="250.0" layoutY="400.0" 
+                           prefWidth="200.0" prefHeight="40.0" maxWidth="200" layoutX="210" layoutY="390" 
                            promptText="Password" 
-                           style="-fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
+                           style="-fx-font-size: 20; -fx-background-color: transparent; -fx-border-color: #000080; -fx-border-width: 2px 2px 2px 2px;" />
 
-            <Button fx:id="signInButton" layoutX="275.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
-                    mnemonicParsing="false" onAction="#signin_button_handler" style="-fx-background-color: #BAEC00" 
+            <Button fx:id="signInButton" layoutX="195" layoutY="480" prefWidth="100" prefHeight="40" 
+                    mnemonicParsing="false" onAction="#signin_button_handler" style="-fx-background-color: #00AB66" 
                     text="Login" textFill="WHITE" />
 
-            <Button fx:id="newUserButton" layoutX="475.0" layoutY="500.0" prefWidth="100" prefHeight="40" 
+            <Button fx:id="newUserButton" layoutX="345" layoutY="480" prefWidth="100" prefHeight="40" 
                     mnemonicParsing="false" onAction="#newUser_button_handler" 
                     style="-fx-background-color: #B30C00" text="New User?" textFill="WHITE" />
 

@@ -10,12 +10,21 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.collections.*;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.StackPane;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+
+import Backend.Queries;
 
 public class insights_controller {
     @FXML
-    private ComboBox<String> comboBox;
+    private ComboBox<String> comboBox,comboBoxGraph;
+
+    @FXML
+    private StackPane stackpane;
 
     @FXML
     private BarChart<String, Number> barChart;
@@ -63,14 +72,12 @@ public class insights_controller {
 
     @FXML
     private void handleInfo() {
-        // Handle Cut action
-        showAlert("info clicked");
+        Main.UserInfoSceneSwitch();
     }
 
     @FXML
     private void handlePwd() {
-        // Handle Copy action
-        showAlert("Copy clicked");
+        Main.UpdatePwdSceneSwitch();
     }
 
     private void showAlert(String message) {
@@ -82,39 +89,106 @@ public class insights_controller {
     }
     
     public void handlePlotButton() {
+
+        stackpane.setVisible(true);
+
         String selectedPlot = comboBox.getValue();
+        String selectedGraph = comboBoxGraph.getValue();
 
-        // Sample data in ArrayLists
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
-        categories.add("Category 4");
-        categories.add("Category 5");
-        categories.add("Category 6");
-        categories.add("Category 7");
+        ArrayList<Map<String,Object>> ordersCurUser = Queries.getOrders_by_uID(User.userId);
+        ArrayList<Map<String,Object>> itemsInEachOrder = new ArrayList<>();
 
+        for (Map<String,Object> order : ordersCurUser){
 
-        ArrayList<Integer> values = new ArrayList<>();
-        values.add(10);
-        values.add(20);
-        values.add(15);
-        values.add(7);
-        values.add(36);
-        values.add(42);
-        values.add(4);
+            String item_ids_str = (String) order.get("items");
+            long[] item_ids = Arrays.stream(item_ids_str.split(";")).mapToLong(Long::parseLong).toArray();
 
+            String quantity_str = (String) order.get("quantities");
+            long[] quantities = Arrays.stream(quantity_str.split(";")).mapToLong(Long::parseLong).toArray();
+
+            int i = 0;
+
+            for(long item_id : item_ids){
+                Map<String,Object> item = Queries.getItems_by_uID_orderID(item_id);
+                item.put("quantity", quantities[i]);
+                itemsInEachOrder.add(item);
+                i += 1;
+            }
+        }
+
+        ArrayList<String> monthsList = new ArrayList<>();
+        ArrayList<Double> spendingPerMonthList = new ArrayList<>();
+        
+        // Initialize ArrayLists to store categories and spending on each category
+        ArrayList<String> categoriesList = new ArrayList<>();
+        ArrayList<Double> spendingPerCategoryList = new ArrayList<>();
+        
+        // Process orders to calculate spending
+        for (Map<String, Object> order : ordersCurUser) {
+            String dateCreated = order.get("date_created").toString();
+            double totalOrderAmount = 0.0;
+        
+            // Calculate total amount for each order
+            for (Map<String, Object> item : itemsInEachOrder) {
+                BigDecimal unitPriceBD = (BigDecimal) item.get("item_unit_price");
+                double unitPrice = unitPriceBD.doubleValue();
+                long quantity = (long) item.get("quantity");
+                totalOrderAmount += (unitPrice * quantity);
+            }
+        
+            // Extract month from the order date
+            String month = dateCreated.substring(5,7);
+        
+            // Update monthsList and spendingPerMonthList
+            if (!monthsList.contains(month)) {
+                monthsList.add(month);
+                spendingPerMonthList.add(totalOrderAmount);
+            } else {
+                int index = monthsList.indexOf(month);
+                double currentSpending = spendingPerMonthList.get(index);
+                spendingPerMonthList.set(index, currentSpending + totalOrderAmount);
+            }
+        }
+        
+        // Process items to calculate category spending
+        for (Map<String, Object> item : itemsInEachOrder) {
+            String category = (String) item.get("Category");
+            BigDecimal unitPriceBD = (BigDecimal) item.get("item_unit_price");
+            double unitPrice = unitPriceBD.doubleValue();
+            long totalQtySold = (long) item.get("quantity");
+            double itemSpending = unitPrice * totalQtySold;
+        
+            // Update categoriesList and spendingPerCategoryList
+            if (!categoriesList.contains(category)) {
+                categoriesList.add(category);
+                spendingPerCategoryList.add(itemSpending);
+            } else {
+                int index = categoriesList.indexOf(category);
+                double currentSpending = spendingPerCategoryList.get(index);
+                spendingPerCategoryList.set(index, currentSpending + itemSpending);
+            }
+        }
 
         // Convert ArrayLists to ObservableLists
-        ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
-        ObservableList<Integer> observableValues = FXCollections.observableArrayList(values);
+        ObservableList<String> observableCategories = FXCollections.observableArrayList(categoriesList);
+        ObservableList<Double> observableSpendingCategories = FXCollections.observableArrayList(spendingPerCategoryList);
+
+        ObservableList<String> observableMonth = FXCollections.observableArrayList(monthsList);
+        ObservableList<Double> observableSpendingMonth = FXCollections.observableArrayList(spendingPerMonthList);
+
 
         // Create an XYChart.Series using the observable lists
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Data Series");
 
         for (int i = 0; i < observableCategories.size(); i++) {
-            series.getData().add(new XYChart.Data<>(observableCategories.get(i), observableValues.get(i)));
+            if (selectedGraph.equals("Spending by month")){
+                series.getData().add(new XYChart.Data<>(observableMonth.get(i), observableSpendingMonth.get(i)));
+                series.setName("Spending by month");
+            }
+            else{
+                series.getData().add(new XYChart.Data<>(observableCategories.get(i), observableSpendingCategories.get(i)));
+                series.setName("Spending by category");
+            }
         }
 
         if (selectedPlot.equals("Line Chart")){
@@ -126,6 +200,7 @@ public class insights_controller {
             pieChart.setVisible(false);
 
             lineChart.getData().add(series);
+            
         }
 
         else if (selectedPlot.equals("Bar Chart")){
@@ -137,11 +212,12 @@ public class insights_controller {
             pieChart.setVisible(false);
 
             barChart.getData().add(series);
+            
         }
 
         else if (selectedPlot.equals("Pie Chart")){
             pieChart.getData().clear();
-            pieChart.setLabelsVisible(false);
+            //pieChart.setLabelsVisible(false);
             pieChart.setAnimated(false);
 
             lineChart.setVisible(false);
@@ -151,12 +227,19 @@ public class insights_controller {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 pieChart.getData().add(new PieChart.Data(data.getXValue(), data.getYValue().doubleValue()));
             }
+
+            
         }
     }
     public void initialize() {
+        stackpane.setVisible(false);
         pieChart.getData().clear();        
         barChart.getData().clear();
         lineChart.getData().clear();
+    }
+
+    public void handleCancelButton() {
+        Main.DashboardSceneSwitch(User.userName);
     }
 }
 

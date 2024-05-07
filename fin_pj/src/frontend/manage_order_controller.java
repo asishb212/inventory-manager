@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -18,11 +19,15 @@ import Backend.*;
 
 public class manage_order_controller {
     
-    private String[] headers = {"order_type", "order_status", "tax_percent", "items", "date_created"};
+    private String[] headers = {"order_type", "order_status", "tax_percent", "items", "date_created","          ","           ","           ","        ","        ","        ","        ","        "};
+    private String[] headers2 = {"Name", "Description", "Unit Price", "Discount", "Stock Status", "Category","Quantity","          ","           ","           ","        ","        ","        ","        ","        ","        "};
 
     private int i = 0;
     private long[] item_ids;
     private long[] quantities;
+
+    @FXML
+    private ScrollPane scrollPane, scrollPane2;
 
     @FXML
     private GridPane detailsGrid;
@@ -96,6 +101,7 @@ public class manage_order_controller {
 
         for (int i = 0; i < headers.length; i++) {
             Label headerLabel = new Label(headers[i]);
+            headerLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
             detailsGrid.add(headerLabel, i, 0);
         }
 
@@ -106,18 +112,38 @@ public class manage_order_controller {
 
             String items_st = (String) order.get("items");
             int items_count = items_st.split(";").length;
-            
-            detailsGrid.add(new Label((String) order.get("order_type")), 0, i + 1);
-            detailsGrid.add(new Label((String) order.get("order_status")), 1, i + 1);
-            detailsGrid.add(new Label(order.get("tax_percent").toString()), 2, i + 1);
-            detailsGrid.add(new Label(Integer.toString(items_count)), 3, i + 1);
-            detailsGrid.add(new Label(order.get("date_created").toString().substring(0, 10)), 4, i + 1);
+
+            Label orderStatusLable = new Label((String) order.get("order_type"));
+            orderStatusLable.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(orderStatusLable, 0, i + 1);
+
+            Label order_statusLable = new Label((String) order.get("order_status"));
+            order_statusLable.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(order_statusLable, 1, i + 1);
+
+            Label tax_percent_lable = new Label(order.get("tax_percent").toString());
+            tax_percent_lable.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(tax_percent_lable, 2, i + 1);
+
+            Label items_count_Label = new Label(Integer.toString(items_count));
+            items_count_Label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(items_count_Label, 3, i + 1);
+
+            Label date_label = new Label(order.get("date_created").toString().substring(0, 10));
+            date_label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(date_label, 4, i + 1);
 
             Button actionBtn = new Button("    Details    ");
             actionBtn.setOnAction(event -> handleEditAction(event, order));
 
             detailsGrid.add(actionBtn, 5, i+1);
             }
+        
+        for (int j = orderDetailsList.size(); j < 20; j++){
+            Label statusLabel = new Label("              ");
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, j + 1);
+        }
     }
 
     private void handleEditAction(ActionEvent event, Map<String,Object> order){
@@ -134,6 +160,13 @@ public class manage_order_controller {
     }
 
     public void initialize(){
+
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+
+        scrollPane2.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  
+        scrollPane2.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+
         getOrders();
     }
 
@@ -146,15 +179,48 @@ public class manage_order_controller {
         detailsGrid.getChildren().clear();
 
         for (i = 0; i < item_ids.length; i++) {
+
+            for (int i = 0; i < headers2.length; i++) {
+                Label headerLabel = new Label(headers2[i]);
+                headerLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+                detailsGrid.add(headerLabel, i, 0);
+            }
+
             Map<String, Object> item = Queries.getItems_by_uID_orderID(item_ids[i]);
             
-            detailsGrid.add(new Label((String) item.get("item_name")), 0, i + 1);
-            detailsGrid.add(new Label((String) item.get("item_description")), 1, i + 1);
-            detailsGrid.add(new Label(item.get("item_unit_price").toString()), 2, i + 1);
-            detailsGrid.add(new Label(item.get("item_discount_percent").toString()), 3, i + 1);
-            detailsGrid.add(new Label((String) item.get("stock_status")), 4, i + 1);
-            detailsGrid.add(new Label((String) item.get("Category")), 5, i + 1);
-            detailsGrid.add(new Label(String.valueOf(quantities[i])), 6, i + 1);
+            Label namelabel = new Label((String) item.get("item_name"));
+            namelabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(namelabel, 0, i + 1);
+
+            Label descriptionLabel = new Label((String) item.get("item_description"));
+            descriptionLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(descriptionLabel, 1, i + 1);
+
+            Label priceLabel = new Label(item.get("item_unit_price").toString());
+            priceLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(priceLabel, 2, i + 1);
+
+            Label discountLabel = new Label(item.get("item_discount_percent").toString());
+            discountLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(discountLabel, 3, i + 1);
+
+            Label statusLabel = new Label((String) item.get("stock_status"));
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, i + 1);
+
+            Label categoryLabel = new Label((String) item.get("Category"));
+            categoryLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(categoryLabel, 5, i + 1);
+
+            Label quantityLabel = new Label(String.valueOf(quantities[i]));
+            quantityLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(quantityLabel, 6, i + 1);
+        }
+
+        for (int j = item_ids.length; j < 20; j++){
+            Label statusLabel = new Label("              ");
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, j + 1);
         }
     }
     
