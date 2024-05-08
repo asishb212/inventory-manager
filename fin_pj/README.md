@@ -11,4 +11,4 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 
 `Java FX 21.0.3`
-`Java 21..0.2`
+`Java 21.0.2`
