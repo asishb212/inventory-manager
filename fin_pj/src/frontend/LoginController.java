@@ -61,7 +61,7 @@ public class LoginController {
             Map<String,Object> userData = Queries.getUserInfo(userName);
 
             User.setUserName((String) userData.get("username"));
-            User.setUserId((int) userData.get("user_id"));
+            User.setUserId((long) userData.get("user_id"));
             User.setUserRole((String) userData.get("user_role"));
             User.setUserType((String) userData.get("user_type"));
 

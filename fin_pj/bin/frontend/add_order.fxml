@@ -1,0 +1,125 @@
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.collections.*?>
+
+<?import java.lang.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+ prefHeight="800.0" prefWidth="1600.0" 
+ xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+ fx:controller="frontend.add_order_controller">
+
+<top>
+<AnchorPane maxHeight="10" maxWidth="1600.0" prefHeight="10" prefWidth="1600.0" >
+    <MenuBar maxHeight="10" maxWidth="1600.0" prefHeight="10" prefWidth="1600.0"
+       style="-fx-background-color: #c7c6c1; -fx-text-fill:WHITE;" >
+        <menus>
+            <Menu text="File" style="-fx-font-size: 20; -text-color: WHITE;">
+                <items>
+                    <MenuItem text="Home" onAction="#handleHome"/>
+                    <MenuItem text="Logout" onAction="#handleLogout"/>
+                    <MenuItem text="Exit" onAction="#handleExit"/>
+                </items>
+            </Menu>
+            <Menu text="View" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
+            
+                <items>
+                    <MenuItem text="Inventory" onAction="#handleInventory"/>
+                    <MenuItem text="Insights" onAction="#handleInsights"/>
+                </items>
+            </Menu>
+            <Menu text="Account" style="-fx-font-size: 20; -fx-text-fill: WHITE;">
+                <items>
+                    <MenuItem text="Info" onAction="#handleInfo"/>
+                    <MenuItem text="Change password" onAction="#handlePwd"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+    
+    
+</AnchorPane>
+</top>
+
+<left>
+    <AnchorPane fx:id="searchOP" maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #6200ee;">
+        <children>  
+                <ScrollPane fx:id="scrollPane" prefHeight="600.0" minWidth="1000" prefWidth="1000.0" visible="true"
+                            style="-fx-background-color: #6200ee;"
+                            layoutX="20" layoutY="100">
+                    <content>
+                        <GridPane fx:id="detailsGrid" hgap="10" vgap="5" 
+                        style="-fx-background-color: #6200ee; -fx-text-fill: #FFFFFF;">
+                        </GridPane>
+                    </content>
+                </ScrollPane>
+        </children>
+    </AnchorPane>
+</left>
+
+<right>
+<AnchorPane maxHeight="800.0" prefWidth="600.0" style="-fx-background-color: #6200ee;" BorderPane.alignment="CENTER">
+    <children>
+
+    <VBox alignment="CENTER" prefHeight="680.0" prefWidth="470.0" 
+               BorderPane.alignment="CENTER" style="-fx-background-color: #e8e8e8; -fx-background-radius: 20;" 
+               layoutX="1" layoutY="50" spacing="10">
+    </VBox>
+
+    <Text fx:id="text" fill="#6200ee" layoutX="80.0" layoutY="90.0" strokeWidth="0.0" text="Search for the Item">
+        <font>
+            <Font name="Roboto" size="40.0" />
+        </font>
+    </Text>
+
+    <TextField fx:id="itemName" prefWidth="200.0" prefHeight="50" maxWidth="400" 
+            promptText="Item Name" layoutX="130" layoutY="130" 
+            style="-fx-background-color: transparent; -fx-border-color: #6200ee; -fx-font-size: 20;
+            -fx-border-width: 2px 2px 2px 2px;" visible="true"/>
+
+    <ComboBox fx:id="category" prefWidth="200.0" prefHeight="50" maxWidth="400" 
+                        promptText="category" layoutX="130" layoutY="200" 
+                        style="-fx-background-color: transparent; -fx-border-color: #6200ee; -fx-font-size: 20;
+                        -fx-border-width: 2px 2px 2px 2px;" >
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Food"/>
+                <String fx:value="Clothing"/>
+                <String fx:value="Furniture"/>
+                <String fx:value="Electronics"/>
+                <String fx:value="Cosmetics"/>
+                <String fx:value="Health"/>
+                <String fx:value="Others"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <TextField fx:id="Discount" prefWidth="200.0" prefHeight="50" 
+            promptText="Discount" layoutX="130" layoutY="270" 
+            style="-fx-background-color: transparent; -fx-border-color: #6200ee; -fx-font-size: 20;
+            -fx-border-width: 2px 2px 2px 2px;" visible="true"/>
+
+    <RadioButton fx:id="radioButton" text="Show only available items" style="-fx-font-size: 25;" layoutX="40" layoutY="340"/>
+    
+    <Button fx:id="SearchButton" 
+        layoutX="40.0" layoutY="450"
+        prefWidth="400" prefHeight="100" 
+        mnemonicParsing="false" onAction="#handleSearch" style="-fx-background-color: #4681f4; -fx-font-size: 40" 
+        text="Search" textFill="WHITE" />
+
+    <Button fx:id="CancelButton" 
+        layoutX="40.0" layoutY="600" 
+        prefWidth="400" prefHeight="100"
+        mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #ED0800; -fx-font-size: 40;" 
+        text="Back" textFill="WHITE" />
+        
+
+    </children>
+    </AnchorPane>
+</right>
+</BorderPane>

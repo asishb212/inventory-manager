@@ -11,10 +11,17 @@ import java.util.Map;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
+
 public class Queries {
 
+    private static final String PEPPER = "+loLd7uanqy34gzNWGu87g==";
+
     public static Connection connection;
-    private static ResultSet resultSet;
+    private static ResultSet resultSet,resultSet2;
 
     private static PreparedStatement psCheckCredentials;
     private static PreparedStatement psAddUser;
@@ -25,20 +32,137 @@ public class Queries {
     private static PreparedStatement psUpdateUser;
     private static PreparedStatement psCustomer;
     private static PreparedStatement psOrder;
+    private static PreparedStatement psAllUser;
+    private static PreparedStatement psDeleteUser;
 
     public static void setConnection(Connection connection){
         Queries.connection = connection;
     }
 
+    public static void addAdmin(String username, String type, String passwd) {   	
+        try {
+            LocalDate currentDate = LocalDate.now();
+        
+            // Format the date to match the MySQL DATE format (YYYY-MM-DD)
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(formatter);
+
+            String salt = generateSalt();
+            String hashedPassword = hashPassword(passwd, salt);
+
+            psAddUser = connection.prepareStatement("Insert into USER (USERNAME, USER_ROLE, USER_TYPE, "
+            									+ "salt, hashed_password, DATE_CREATED) " + "values (?,?,?,?,?,?) ");
+            psAddUser.setString(1, username);
+            psAddUser.setString(2, "Admin");
+            psAddUser.setString(3, type);
+            psAddUser.setString(4, salt);
+            psAddUser.setString(5, hashedPassword);
+            psAddUser.setString(6, formattedDate); 
+
+            psAddUser.executeUpdate();
+            
+        } catch(SQLException se) {
+            System.out.println("Could not add User. " + se.getMessage());
+        }     
+    }
+
+    public static ArrayList<Map<String,Object>> getAllusers(){
+        ArrayList<Map<String,Object>> allUsersData = new ArrayList<>();
+
+        try {
+
+            psAllUser = connection.prepareStatement("SELECT * FROM USER");
+            resultSet2 = psAllUser.executeQuery();
+            
+            while(resultSet2.next()) {
+                Map<String,Object> userData = new HashMap<>();
+
+                long user_id = resultSet2.getLong("user_id");
+                String username = resultSet2.getString("username");
+                String user_role = resultSet2.getString("user_role");
+                String user_type = resultSet2.getString("user_type");
+
+                userData.put("user_id", user_id);
+                userData.put("username", username);
+                userData.put("user_role", user_role);
+                userData.put("user_type", user_type);
+
+                if (user_type.equals("S")){
+                    Map<String,Object> suppData = new HashMap<>();
+
+                    suppData = Queries.getSupplier((long) userData.get("user_id"));
+
+                    userData.put("SUPPLIER_ID", (long) suppData.get("SUPPLIER_ID"));
+                    userData.put("SUPPLIER_NAME", (String) suppData.get("SUPPLIER_NAME"));
+                    userData.put("CONTACT_FIRSTNAME", (String) suppData.get("CONTACT_FIRSTNAME"));
+                    userData.put("CONTACT_LASTNAME", (String) suppData.get("CONTACT_LASTNAME"));
+                    userData.put("CONTACT_PHONE", (String) suppData.get("CONTACT_PHONE"));
+                    
+                    Map<String,Object> suppAddr = new HashMap<>();
+
+                    suppAddr = Queries.getSupplierAddress((long) userData.get("SUPPLIER_ID"));
+
+                    userData.put("ADDR_STREET",(String) suppAddr.get("ADDR_STREET"));
+                    userData.put("ADDR_CITY",(String) suppAddr.get("ADDR_CITY"));
+                    userData.put("ADDR_STATE",(String) suppAddr.get("ADDR_STATE"));
+                    userData.put("ADDR_COUNTRY",(String) suppAddr.get("ADDR_COUNTRY"));
+                    userData.put("ADDR_ZIPCODE",(String) suppAddr.get("ADDR_ZIPCODE"));
+                }
+
+                if (user_type.equals("C")) {
+
+                    Map<String,Object> custData = new HashMap<>();
+
+                    custData = Queries.getCustomer((long) userData.get("user_id"));
+
+                    userData.put("CUST_ID", (long) custData.get("CUST_ID"));
+                    userData.put("FIRST_NAME", (String) custData.get("FIRST_NAME"));
+                    userData.put("LAST_NAME", (String) custData.get("LAST_NAME"));
+                    userData.put("PHONE_NUMBER", (String) custData.get("PHONE_NUMBER"));
+                    userData.put("EMAIL", (String) custData.get("EMAIL"));
+                    
+                    Map<String,Object> custAddr = new HashMap<>();
+
+                    custAddr = Queries.getCustomerAddress((String) userData.get("PHONE_NUMBER"));
+
+                    userData.put("ADDR_STREET",(String) custAddr.get("ADDR_STREET"));
+                    userData.put("ADDR_CITY",(String) custAddr.get("ADDR_CITY"));
+                    userData.put("ADDR_STATE",(String) custAddr.get("ADDR_STATE"));
+                    userData.put("ADDR_COUNTRY",(String) custAddr.get("ADDR_COUNTRY"));
+                    userData.put("ADDR_ZIPCODE",(String) custAddr.get("ADDR_ZIPCODE"));
+                }
+
+                allUsersData.add(userData);
+            }
+        } catch(SQLException se) {
+            System.out.println("Error checking credentials: " + se.getMessage());
+        }
+
+        return allUsersData;
+    }
+
+    public static void deleteUser(long userId){
+        try {
+            psDeleteUser = connection.prepareStatement("DELETE FROM user WHERE user_id = ?");
+            psDeleteUser.setLong(1, userId);
+            psDeleteUser.executeUpdate();
+
+        } catch(SQLException se) {
+            System.out.println("Error checking credentials: " + se.getMessage());
+        }
+    }
+
     public static Boolean checkCredentials(String userName, String Password) {
         try {
-            psCheckCredentials = connection.prepareStatement("SELECT USERNAME FROM USER WHERE USERNAME = ? AND PASSWORD = ?");
+            psCheckCredentials = connection.prepareStatement("SELECT salt, hashed_password FROM USER WHERE USERNAME = ?");
             psCheckCredentials.setString(1, userName);
-            psCheckCredentials.setString(2, Password);
             resultSet = psCheckCredentials.executeQuery();
             
             while(resultSet.next()) {
-                return true; // Username and password match found
+                String salt = resultSet.getString("salt");
+                String storedHashedPassword = resultSet.getString("hashed_password");
+                String hashedPassword = hashPassword(Password, salt);
+                return hashedPassword.equals(storedHashedPassword);
             }
         } catch(SQLException se) {
             System.out.println("Error checking credentials: " + se.getMessage());
@@ -49,8 +173,15 @@ public class Queries {
 
     public static void updatePassword(String usrname, String newPassword) {   	
         try {
-            psUpdateUser = connection.prepareStatement("Update USER set PASSWORD = '" + newPassword 
-            										+ "' where USERNAME = '" + usrname + "'");
+            String newSalt = generateSalt();
+            String newHashedPassword = hashPassword(newPassword, newSalt);
+
+            psUpdateUser = connection.prepareStatement("UPDATE user SET salt = ?, hashed_password = ? WHERE username = ?");
+
+            psUpdateUser.setString(1, newSalt);
+            psUpdateUser.setString(2, newHashedPassword);
+            psUpdateUser.setString(3, usrname);
+
             psUpdateUser.executeUpdate();
             
         } catch(SQLException se) {
@@ -58,6 +189,24 @@ public class Queries {
         }     
     }
 
+    public static String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    public static String hashPassword(String password, String salt) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String saltedAndPepperedPassword = salt + password + PEPPER;
+            byte[] hashedBytes = md.digest(saltedAndPepperedPassword.getBytes());
+            return Base64.getEncoder().encodeToString(hashedBytes);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static void addUser(String username, String type, String passwd) {   	
         try {
@@ -67,13 +216,18 @@ public class Queries {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String formattedDate = currentDate.format(formatter);
 
+            String salt = generateSalt();
+            String hashedPassword = hashPassword(passwd, salt);
+
             psAddUser = connection.prepareStatement("Insert into USER (USERNAME, USER_ROLE, USER_TYPE, "
-            									+ "PASSWORD, DATE_CREATED) " + "values (?,?,?,?,?) ");
+            									+ "salt, hashed_password, DATE_CREATED) " + "values (?,?,?,?,?,?) ");
             psAddUser.setString(1, username);
             psAddUser.setString(2, "Norm");
             psAddUser.setString(3, type);
-            psAddUser.setString(4, passwd);
-            psAddUser.setString(5, formattedDate);           
+            psAddUser.setString(4, salt);
+            psAddUser.setString(5, hashedPassword);
+            psAddUser.setString(6, formattedDate); 
+
             psAddUser.executeUpdate();
             
         } catch(SQLException se) {
@@ -189,7 +343,7 @@ public class Queries {
             Map<String,Object> userData = new HashMap<>();
             
             while(resultSet.next()) {
-                int user_id = resultSet.getInt("user_id");
+                long user_id = resultSet.getLong("user_id");
                 String username = resultSet.getString("username");
                 String user_role = resultSet.getString("user_role");
                 String user_type = resultSet.getString("user_type");
@@ -532,6 +686,39 @@ public class Queries {
         }
     }
 
+    public static ArrayList<Map<String, Object>> getAllItemDetails() {   	
+        ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
+        
+        try {
+            PreparedStatement psItem = connection.prepareStatement( "SELECT * FROM item");
+
+            ResultSet resultSet = psItem.executeQuery();
+
+            while (resultSet.next()) {
+                Map<String, Object> itemDetails = new HashMap<>();
+                itemDetails.put("item_id", resultSet.getLong("item_id"));
+                itemDetails.put("item_name", resultSet.getString("item_name"));
+                itemDetails.put("item_description", resultSet.getString("item_description"));
+                itemDetails.put("item_unit_price", resultSet.getBigDecimal("item_unit_price"));
+                itemDetails.put("item_discount_percent", resultSet.getBigDecimal("item_discount_percent"));
+                itemDetails.put("supplier_id", resultSet.getLong("supplier_id"));
+                itemDetails.put("total_qty_purchased", resultSet.getLong("total_qty_purchased"));
+                itemDetails.put("total_qty_sold", resultSet.getLong("total_qty_sold"));
+                itemDetails.put("stock_status", resultSet.getString("stock_status"));
+                itemDetails.put("Category", resultSet.getString("Category"));
+    
+                itemsList.add(itemDetails);
+            }
+
+        }
+
+        catch (SQLException se) {
+            System.out.println("Could not get the specified item info. " + se.getMessage());
+        }
+    
+        return itemsList;
+    }
+
     public static ArrayList<Map<String, Object>> getItemDetails(String item_text, double discount, String category, boolean status) {   	
         ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
         
@@ -858,6 +1045,36 @@ public class Queries {
             psOrder = connection.prepareStatement("select order_id, order_type, order_status,tax_percent,items, quantities, user_id, date_created from orders where user_id = ?");
 
             psOrder.setLong(1, userId);
+
+            ResultSet resultSet = psOrder.executeQuery();
+
+            while (resultSet.next()) {
+                Map<String, Object> orderDetails = new HashMap<>();
+                orderDetails.put("order_id", resultSet.getLong("order_id"));
+                orderDetails.put("order_type", resultSet.getString("order_type"));
+                orderDetails.put("order_status", resultSet.getString("order_status"));
+                orderDetails.put("tax_percent", resultSet.getBigDecimal("tax_percent"));
+                orderDetails.put("items", resultSet.getString("items"));
+                orderDetails.put("quantities", resultSet.getString("quantities"));
+                orderDetails.put("user_id", resultSet.getLong("user_id"));
+                orderDetails.put("date_created", resultSet.getTimestamp("date_created")); 
+    
+                orderDetailsList.add(orderDetails);
+            }
+
+        } catch(SQLException se) {
+            System.out.println("Could not pget results. " + se.getMessage());
+        }
+
+        return orderDetailsList;
+    }
+
+    public static ArrayList<Map<String,Object>> getAllOrders(long userId){
+
+        ArrayList<Map<String, Object>> orderDetailsList = new ArrayList<>();
+
+        try {
+            psOrder = connection.prepareStatement("select order_id, order_type, order_status,tax_percent,items, quantities, user_id, date_created from orders");
 
             ResultSet resultSet = psOrder.executeQuery();
 

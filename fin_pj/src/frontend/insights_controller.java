@@ -61,8 +61,7 @@ public class insights_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML
@@ -94,6 +93,16 @@ public class insights_controller {
 
         String selectedPlot = comboBox.getValue();
         String selectedGraph = comboBoxGraph.getValue();
+
+        if (selectedPlot == null){
+            showAlert("Choose a chart type");
+            return;
+        }
+
+        if (selectedGraph == null){
+            showAlert("Choose required insight");
+            return;
+        }
 
         ArrayList<Map<String,Object>> ordersCurUser = Queries.getOrders_by_uID(User.userId);
         ArrayList<Map<String,Object>> itemsInEachOrder = new ArrayList<>();
@@ -148,6 +157,7 @@ public class insights_controller {
                 double currentSpending = spendingPerMonthList.get(index);
                 spendingPerMonthList.set(index, currentSpending + totalOrderAmount);
             }
+
         }
         
         // Process items to calculate category spending
@@ -176,20 +186,23 @@ public class insights_controller {
         ObservableList<String> observableMonth = FXCollections.observableArrayList(monthsList);
         ObservableList<Double> observableSpendingMonth = FXCollections.observableArrayList(spendingPerMonthList);
 
-
         // Create an XYChart.Series using the observable lists
         XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-        for (int i = 0; i < observableCategories.size(); i++) {
-            if (selectedGraph.equals("Spending by month")){
-                series.getData().add(new XYChart.Data<>(observableMonth.get(i), observableSpendingMonth.get(i)));
-                series.setName("Spending by month");
+        if (selectedGraph.equals("Spending by month")){
+            for (int i = 0; i < observableMonth.size() && i < observableSpendingMonth.size(); i++) {
+                series.getData().add(new XYChart.Data<>(observableMonth.get(i),observableSpendingMonth.get(i)));
             }
-            else{
-                series.getData().add(new XYChart.Data<>(observableCategories.get(i), observableSpendingCategories.get(i)));
-                series.setName("Spending by category");
-            }
+            series.setName("Spending by month");
         }
+
+        else if (selectedGraph.equals("Spending by category")){
+            for (int i = 0; i < observableCategories.size() && i < observableSpendingCategories.size(); i++) {
+                series.getData().add(new XYChart.Data<>(observableCategories.get(i),observableSpendingCategories.get(i)));
+            }
+            series.setName("Spending by month");
+        }
+                
 
         if (selectedPlot.equals("Line Chart")){
             lineChart.getData().clear();
@@ -232,6 +245,7 @@ public class insights_controller {
         }
     }
     public void initialize() {
+        
         stackpane.setVisible(false);
         pieChart.getData().clear();        
         barChart.getData().clear();

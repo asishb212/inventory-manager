@@ -1,7 +1,6 @@
 package frontend;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 
 public class admin_dashboard_controller {
 
@@ -19,34 +18,28 @@ public class admin_dashboard_controller {
     }
 
     @FXML
-    private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
-    }
-
-    @FXML
-    private void handleInsights() {
-        // Handle Exit action
-        showAlert("Exit clicked");
-    }
-
-    @FXML
     private void handleInfo() {
         // Handle Cut action
-        showAlert("Cut clicked");
+        Main.UserInfoSceneSwitch();
     }
 
     @FXML
     private void handlePwd() {
-        // Handle Copy action
-        showAlert("Copy clicked");
+        Main.UpdatePwdSceneSwitch();
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    @FXML
+    private void handleInventory() {
+        Main.AdminInventorySceneSwitch();
+    }
+
+    @FXML
+    private void handleDataInsights() {
+        Main.AdminInsightsSceneSwitch();
+    }
+
+    @FXML
+    private void handleShowuserData() {
+        Main.AdminUsersDataSceneSwitch();
     }
 }

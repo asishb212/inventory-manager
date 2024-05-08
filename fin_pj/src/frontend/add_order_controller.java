@@ -129,7 +129,7 @@ public class add_order_controller {
             categoryLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
             detailsGrid.add(categoryLabel, 5, i + 1);
 
-            TextField quantityField = new TextField("0");
+            TextField quantityField = new TextField("1");
             quantityField.setPrefWidth(40);
 
             Button increment = new Button("+");
@@ -138,7 +138,7 @@ public class add_order_controller {
             Button decrement = new Button("-");
             decrement.setOnAction(e -> {
                 int current = Integer.parseInt(quantityField.getText());
-                quantityField.setText(String.valueOf(Math.max(0, current - 1)));  // Prevent negative quantities
+                quantityField.setText(String.valueOf(Math.max(1, current - 1)));  // Prevent negative quantities
             });
 
             GridPane quantityControl = new GridPane();

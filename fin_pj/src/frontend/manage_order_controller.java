@@ -148,8 +148,6 @@ public class manage_order_controller {
 
     private void handleEditAction(ActionEvent event, Map<String,Object> order){
 
-        //long order_id = (long) order.get("order_id");
-
         String item_ids_str = (String) order.get("items");
         item_ids = Arrays.stream(item_ids_str.split(";")).mapToLong(Long::parseLong).toArray();
 

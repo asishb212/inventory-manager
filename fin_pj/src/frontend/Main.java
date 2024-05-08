@@ -62,6 +62,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
     public static void AdminUserDashboardSceneSwitch() {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/admin_dashboard.fxml"));
@@ -69,6 +70,43 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AdminUsersDataSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/admin_users_data.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AdminInventorySceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/admin_inventory.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AdminInsightsSceneSwitch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/frontend/admin_insights.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
 
         } catch (IOException e) {
             e.printStackTrace();

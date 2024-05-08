@@ -72,21 +72,27 @@ public class add_item_controller {
     }
 
     private boolean validateItemName(String itemName) {
-        if (itemName != null && itemName.length() <= 30) {
-            return true;
-        } else {
-            showAlert("Item name must not be empty and should be 30 characters or less.");
+        if (itemName == null || itemName.trim().isEmpty()) {
+            showAlert("Item name must not be empty.");
+            return false;
+        } 
+        else if (itemName.length()>30) {
+            showAlert("Item name cannot be longer than 30 characters.");
             return false;
         }
+        return true;
     }
     
     private boolean validateItemDescription(String itemDescription) {
-        if (itemDescription != null && itemDescription.length() <= 30) {
-            return true;
-        } else {
-            showAlert("Item description must not be empty and should be 30 characters or less.");
+        if (itemDescription == null || itemDescription.trim().isEmpty()) {
+            showAlert("Item name must not be empty.");
+            return false;
+        } 
+        else if (itemDescription.length() > 30){
+            showAlert("Item name cannot be longer than 30 characters.");
             return false;
         }
+        return true;
     }
     
     private boolean validateItemUnitPrice(String itemUnitPrice) {

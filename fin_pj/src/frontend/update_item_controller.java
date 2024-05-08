@@ -14,8 +14,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class update_item_controller {
+
+    @FXML
+    private VBox vbox,vbox2;
 
     @FXML
     private TextField itemName;
@@ -39,7 +43,7 @@ public class update_item_controller {
     private AnchorPane searchOP;
 
     @FXML
-    private AnchorPane updateOP;
+    private AnchorPane updateOP,bg;
 
     @FXML
     private TextField itemName2;
@@ -65,7 +69,7 @@ public class update_item_controller {
     private long item_id;
 
 
-    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Qty Purchased", "Qty Sold", "Stock Status", "Category"};
+    private String[] headers = {"Name", "Description", "Unit Price", "Discount", "Qty Purchased", "Qty Sold", "Stock Status", "Category","                  "};
     
     @FXML
     private void handleLogout() {
@@ -104,21 +108,27 @@ public class update_item_controller {
     }
 
     private boolean validateItemName(String itemName) {
-        if (itemName != null && itemName.length() <= 30) {
-            return true;
-        } else {
-            showAlert("Item name must not be empty and should be 30 characters or less.");
+        if (itemName == null || itemName.trim().isEmpty()) {
+            showAlert("Item name must not be empty.");
+            return false;
+        } 
+        else if (itemName.length()>30) {
+            showAlert("Item name cannot be longer than 30 characters.");
             return false;
         }
+        return true;
     }
     
     private boolean validateItemDescription(String itemDescription) {
-        if (itemDescription != null && itemDescription.length() <= 30) {
-            return true;
-        } else {
-            showAlert("Item description must not be empty and should be 30 characters or less.");
+        if (itemDescription == null || itemDescription.trim().isEmpty()) {
+            showAlert("Item name must not be empty.");
+            return false;
+        } 
+        else if (itemDescription.length() > 30){
+            showAlert("Item name cannot be longer than 30 characters.");
             return false;
         }
+        return true;
     }
     
     private boolean validateItemUnitPrice(String itemUnitPrice) {
@@ -227,20 +237,49 @@ public class update_item_controller {
 
         for (int i = 0; i < itemsList.size(); i++) {
             Map<String, Object> item = itemsList.get(i);
-            
-            detailsGrid.add(new Label((String) item.get("item_name")), 0, i + 1);
-            detailsGrid.add(new Label((String) item.get("item_description")), 1, i + 1);
-            detailsGrid.add(new Label(item.get("item_unit_price").toString()), 2, i + 1);
-            detailsGrid.add(new Label(item.get("item_discount_percent").toString()), 3, i + 1);
-            detailsGrid.add(new Label(item.get("total_qty_purchased").toString()), 4, i + 1);
-            detailsGrid.add(new Label(item.get("total_qty_sold").toString()), 5, i + 1);
-            detailsGrid.add(new Label((String) item.get("stock_status")), 6, i + 1);
-            detailsGrid.add(new Label((String) item.get("Category")), 7, i + 1);
+
+            Label namelabel = new Label((String) item.get("item_name"));
+            namelabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(namelabel, 0, i + 1);
+
+            Label descriptionLabel = new Label((String) item.get("item_description"));
+            descriptionLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(descriptionLabel, 1, i + 1);
+
+            Label priceLabel = new Label(item.get("item_unit_price").toString());
+            priceLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(priceLabel, 2, i + 1);
+
+            Label discountLabel = new Label(item.get("item_discount_percent").toString());
+            discountLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(discountLabel, 3, i + 1);
+
+            Label total_qty_purchased_Label = new Label(item.get("total_qty_purchased").toString());
+            total_qty_purchased_Label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(total_qty_purchased_Label, 4, i + 1);
+
+            Label total_qty_sold_Label = new Label(item.get("total_qty_sold").toString());
+            total_qty_sold_Label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(total_qty_sold_Label, 5, i + 1);
+
+            Label statusLabel = new Label((String) item.get("stock_status"));
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 6, i + 1);
+
+            Label categoryLabel = new Label((String) item.get("Category"));
+            categoryLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(categoryLabel, 7, i + 1);
 
             Button actionBtn = new Button("Update");
             actionBtn.setOnAction(event -> handleUpdateAction(event, item));
 
             detailsGrid.add(actionBtn, 8, i+1);
+        }
+
+        for (int j = itemsList.size(); j < 20; j++){
+            Label statusLabel = new Label("              ");
+            statusLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
+            detailsGrid.add(statusLabel, 4, j + 1);
         }
 
         SearchButton.setVisible(false);
@@ -250,6 +289,8 @@ public class update_item_controller {
     }
 
     private void handleUpdateAction(ActionEvent event, Map<String, Object> itemDetails) {
+
+        bg.setVisible(true);
 
         searchOP.setVisible(false);
         searchOP.setDisable(true);
@@ -286,6 +327,9 @@ public class update_item_controller {
 
     public void initialize(){
 
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);  
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+
         ConfirmButton.setDisable(true);
         updateOP.setDisable(true);
         updateOP.setVisible(false);
@@ -293,6 +337,7 @@ public class update_item_controller {
 
         for (int i = 0; i < headers.length; i++) {
             Label headerLabel = new Label(headers[i]);
+            headerLabel.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 25;");
             detailsGrid.add(headerLabel, i, 0);
         }
     }

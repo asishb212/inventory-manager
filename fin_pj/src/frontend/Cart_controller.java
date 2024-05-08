@@ -154,6 +154,13 @@ public class Cart_controller {
         String item_ids = "";
 
         int i = 0;
+
+        if (cart_items.get_cart_items().size() < 1){
+            showAlert("Cart is empty");
+            Main.SearchSceneSwitch();
+        }
+        else {
+
         for (ArrayList<Long> item : cart_items.get_cart_items()) {
             Map<String, Object> itemsDetails = Queries.getItemDetailsBy_SId_IId(item.get(0), item.get(1));
 
@@ -181,6 +188,9 @@ public class Cart_controller {
         showAlert("Total Price after Discounts: $" + formattedTotalPrice);
 
         cart_items.items.clear();
+        updateGrid();
+        Main.DashboardSceneSwitch(User.userName);
+    }
     }
 
     public void handleEmpty(){

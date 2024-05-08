@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "create_admin",
+            "request": "launch",
+            "mainClass": "Backend.create_admin",
+            "projectName": "fin_pj"
+        },
+        {
+            "type": "java",
+            "name": "SecurityConfig",
+            "request": "launch",
+            "mainClass": "Backend.SecurityConfig",
+            "projectName": "fin_pj"
+        },
+        {
+            "type": "java",
             "name": "Controller",
             "request": "launch",
             "mainClass": "Backend.Controller",
@@ -23,7 +37,7 @@
             "name": "Launch App",
             "request": "launch",
             "mainClass": "frontend.Main",
-            "vmArgs": "--module-path /Users/asishboggavarapu/Downloads/javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path javafx-sdk-21.0.3/lib --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

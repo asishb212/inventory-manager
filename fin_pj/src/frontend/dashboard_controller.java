@@ -34,13 +34,11 @@ public class dashboard_controller {
 
     @FXML
     private void handleExit() {
-        // Handle Open action
         System.exit(0);
     }
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
         showAlert("Save clicked");
     }
 

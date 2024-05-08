@@ -1,0 +1,21 @@
+#label {
+    font-size: 16px; /* Larger text size */
+    padding: 10px; /* Padding to increase cell size */
+}
+
+#grid-pane {
+    hgap: 20px; /* Wider horizontal gaps */
+    vgap: 15px; /* Taller vertical gaps */
+}
+
+#default-row {
+    background-color: #FFFFFF; /* Default background */
+}
+
+#alternate-row {
+    background-color: #808080; /* Light grey background for alternate rows */
+}
+
+#detailsGrid {
+    text-fill: #FFFFFF;
+}
