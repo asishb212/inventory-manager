@@ -1,7 +1,6 @@
 package frontend;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 
@@ -39,7 +38,7 @@ public class dashboard_controller {
 
     @FXML
     private void handleInventory() {
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML
@@ -80,14 +79,6 @@ public class dashboard_controller {
     @FXML 
     private void handleShowCart(){
         Main.CartSceneSwitch();
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public void setText(String text) {

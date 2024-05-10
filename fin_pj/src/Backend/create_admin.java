@@ -9,6 +9,8 @@ public class create_admin {
         Connection conn = DBConnection.getConnection();
         Queries.setConnection(conn);
         Queries.addAdmin("adminuser01", "A", "adminpwd01");
+        Queries.addAdmin("adminuser02", "A", "adminpwd02");
+
     }
 
 }

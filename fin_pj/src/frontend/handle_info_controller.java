@@ -1,7 +1,6 @@
 package frontend;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 public class handle_info_controller {
@@ -32,8 +31,7 @@ public class handle_info_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML
@@ -49,14 +47,6 @@ public class handle_info_controller {
     @FXML
     private void handlePwd() {
         Main.UpdatePwdSceneSwitch();
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public void initialize() {

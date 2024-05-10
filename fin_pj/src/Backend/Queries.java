@@ -993,7 +993,7 @@ public class Queries {
     
     public static void updateQuantity(long item_id, long quantity) {   	
         try {
-            PreparedStatement psItem = connection.prepareStatement("UPDATE item SET total_qty_sold = LEAST(total_qty_sold + ?, total_qty_purchased),stock_status = CASE WHEN LEAST(total_qty_sold + ?, total_qty_purchased) >= total_qty_sold THEN 'NA' ELSE stock_status END WHERE item_id = ?");
+            PreparedStatement psItem = connection.prepareStatement("UPDATE item SET total_qty_sold = LEAST(total_qty_sold + ?, total_qty_purchased),stock_status = CASE WHEN LEAST(total_qty_sold + ?, total_qty_purchased) <= total_qty_sold THEN 'NA' ELSE stock_status END WHERE item_id = ?");
             psItem.setLong(1, quantity);
             psItem.setLong(2, quantity);
             psItem.setLong(3, item_id);

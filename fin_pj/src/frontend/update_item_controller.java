@@ -85,8 +85,7 @@ public class update_item_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML

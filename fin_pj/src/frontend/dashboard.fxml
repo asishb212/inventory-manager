@@ -44,7 +44,7 @@
     <left>
         <AnchorPane maxHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #6200ee;" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="welcomeText" layoutX="50" layoutY="50" prefWidth="500" 
+                <Label fx:id="welcomeText" layoutX="50" layoutY="50" prefWidth="900" 
                        style="-fx-font-size: 70; -fx-text-fill:  #FFFFFF;"/>
 
             </children>

@@ -135,8 +135,7 @@ public class insights_controller {
         // Process orders to calculate spending
         for (Map<String, Object> order : ordersCurUser) {
             String dateCreated = order.get("date_created").toString();
-            double totalOrderAmount = 0.0;
-        
+            double totalOrderAmount = 0.0;        
             // Calculate total amount for each order
             for (Map<String, Object> item : itemsInEachOrder) {
                 BigDecimal unitPriceBD = (BigDecimal) item.get("item_unit_price");

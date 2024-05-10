@@ -64,8 +64,7 @@ public class manage_order_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML

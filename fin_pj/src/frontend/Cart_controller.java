@@ -40,8 +40,7 @@ public class Cart_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static Connection connection;
-    private static final String database = "jdbc:mysql://localhost:3306/sys";
+    private static final String database = "jdbc:mysql://localhost:3306/inventory_manager";
     private static final String user = "root";
     private static final String password = "asdfghjkl";
 

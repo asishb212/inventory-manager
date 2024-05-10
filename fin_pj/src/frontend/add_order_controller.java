@@ -59,8 +59,7 @@ public class add_order_controller {
 
     @FXML
     private void handleInventory() {
-        // Handle Save action
-        showAlert("Save clicked");
+        Main.SearchSceneSwitch();
     }
 
     @FXML
@@ -158,7 +157,7 @@ public class add_order_controller {
             String ss = (String) item.get("stock_status");
 
             if (ss.equals("A")){
-                Button actionBtn = new Button("    Add    ");
+                Button actionBtn = new Button("  Add to Cart  ");
                 actionBtn.setOnAction(event -> handleUpdateAction(event, item, quantityField));
 
                 detailsGrid.add(actionBtn, 7, i + 1);
@@ -190,6 +189,7 @@ public class add_order_controller {
         Main.DashboardSceneSwitch(User.userName);
     }
 
+    @FXML 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Action");
